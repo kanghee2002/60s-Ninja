@@ -28,21 +28,24 @@ public class Knife : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Platform"))
+        if (collision.gameObject.CompareTag("Platform"))
         {
             isStuck = true;
         }
 
-        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Platform")
+        if ( collision.gameObject.CompareTag("Platform")
             || collision.gameObject.CompareTag("Obstacle"))
         {
-            SoundManager.instance.EffectPlay(knifeShot);
+            if (SoundManager.instance != null)
+            {
+                SoundManager.instance.EffectPlay(knifeShot);
+            }
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Platform"))
+        if (collision.gameObject.CompareTag("Platform"))
         {
             isStuck = false;
         }
@@ -52,7 +55,7 @@ public class Knife : MonoBehaviour
     {
         if (collision.gameObject.tag == "GenerateBar")
         {
-            GameManager.instance.GenerateFormat();
+            //InGameManager.instance.GenerateFormat();
         }
     }
 

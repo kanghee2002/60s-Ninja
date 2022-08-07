@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
         {
             Instantiate(particle, transform.position, transform.rotation);
             SoundManager.instance.EffectPlay(deathSound);
-            GameManager.instance.AddPlayerScore(3);
+            //InGameManager.instance.AddPlayerScore(3);
             Destroy(gameObject);
         }
     }

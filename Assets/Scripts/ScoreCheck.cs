@@ -10,9 +10,9 @@ public class ScoreCheck : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Knife"))
         {
-            GameManager.instance.AddPlayerScore(score);
-            GameManager.instance.AddPlayerTime(score);
-            GameManager.instance.startBonusCheckTime = true;
+            //InGameManager.instance.AddPlayerScore(score);
+            //InGameManager.instance.AddPlayerTime(score);
+            //InGameManager.instance.startBonusCheckTime = true;
             Destroy(gameObject);
         }
     }

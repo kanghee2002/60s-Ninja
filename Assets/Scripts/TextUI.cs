@@ -26,21 +26,21 @@ public class TextUI : MonoBehaviour
     {
         if (code == 1)
         {
-            textMesh.text = GameManager.instance.playerScore.ToString();
+            //textMesh.text = InGameManager.instance.playerScore.ToString();
         }
     }
     void code2()
     {
         if (code == 2)
         {
-            textMesh.text = "Score : " + GameManager.instance.playerScore.ToString();
+            //textMesh.text = "Score : " + InGameManager.instance.playerScore.ToString();
         }
     }
     void code3()
     {
         if (code == 3)
         {
-            textMesh.text = "Time : " + string.Format("{0:N1}", GameManager.instance.playerPlayTime);
+            //textMesh.text = "Time : " + string.Format("{0:N1}", InGameManager.instance.playerPlayTime);
         }
     }
 
@@ -48,7 +48,7 @@ public class TextUI : MonoBehaviour
     {
         if (code == 4)
         {
-            textMesh.text = string.Format("{0:N1}", GameManager.instance.playerTime);
+            //textMesh.text = string.Format("{0:N1}", InGameManager.instance.playerTime);
         }
     }
 }

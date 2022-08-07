@@ -5,44 +5,45 @@ using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
-    SpriteRenderer spriteRenderer;
-    Rigidbody2D rigid;
+    private Rigidbody2D rigid;
 
-    public GameObject knifeObj;
-    public int throwPower;
-    public int maxKnifeNum;
-    int curKnifeNum;
+    [SerializeField]
+    private GameObject knifeObj;
+    [SerializeField]
+    private int throwPower;
+    [SerializeField]
+    private float slidingSpeed;
+    [SerializeField]
+    private int maxKnifeNum;
 
-    bool isSliding;
-    public float slidingSpeed;
+    [SerializeField]
+    private GameObject flashParticle;
+    [SerializeField]
+    private GameObject deathParticle;
+    [SerializeField]
+    private AudioClip landingSound;
+    [SerializeField]
+    private AudioClip teleportSound;
+    [SerializeField]
+    private AudioClip deathSound;
 
-    List<GameObject> knives = new List<GameObject>();
+    private bool isSliding;
 
-    public GameObject flashParticle;
-    public GameObject deathParticle;
+    private int curKnifeNum;
+    private List<GameObject> knives = new List<GameObject>();
 
-    public AudioClip landingSound;
-    public AudioClip teleportSound;
-    public AudioClip deathSound;
 
-    bool isStart;
-
-    void Awake()
+    public void Init()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
-        GameManager.instance.player = gameObject;
-    }
-    void Start()
-    {
         curKnifeNum = maxKnifeNum;
         isSliding = false;
-        isStart = false;
+
     }
 
-    void Update()
+    private void Update()
     {
-        Throw();
+        ThrowKnife();
     }
 
     private void FixedUpdate()
@@ -54,18 +55,23 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Obstacle"))
         {
-            GameManager.instance.GameOver();
+            InGameManager.instance.GameOver();
         }
 
-        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Platform"))
+        if (collision.gameObject.CompareTag("Platform"))
         {
+            if (SoundManager.instance == null)
+            {
+                return;
+            }
+
             SoundManager.instance.EffectPlay(landingSound);
         }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Platform"))
+        if (collision.gameObject.CompareTag("Platform"))
         {
             isSliding = true;
         }
@@ -73,7 +79,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Platform"))
+        if (collision.gameObject.CompareTag("Platform"))
         {
             isSliding = false;
         }
@@ -81,50 +87,53 @@ public class Player : MonoBehaviour
     }
 
 
-    void Throw()
+    void ThrowKnife()
     {
-        if (Input.touchCount > 0)    //prevent ui touch
-        {
+        if (Input.touchCount > 0)    
+        {   
             if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
-            {
+            {   //Prevent UI touch
                 return;
             }
         }
 
-        if (Input.touchCount > 0  && Input.GetTouch(0).phase == TouchPhase.Began 
-            && curKnifeNum > 0 && GameManager.instance.isGaming)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
-            if (!isStart)
+            if (curKnifeNum > 0)
             {
-                GameManager.instance.GameStart();
-                isStart = true;
+                //isStart 던질 때 노래 시작 및 카운트 시작
+
+                Touch touch = Input.GetTouch(0);
+                Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+
+                Vector2 playerPos = transform.position;
+                Vector2 direction = (touchPos - playerPos).normalized;
+
+                GameObject knife = Instantiate(knifeObj, playerPos, transform.rotation);
+                knives.Add(knife);
+                Rigidbody2D knifeRigid = knife.GetComponent<Rigidbody2D>();
+                knifeRigid.AddForce(direction * throwPower, ForceMode2D.Impulse);
+
+                curKnifeNum--;
             }
+            else
+            {
+                if (SoundManager.instance != null)
+                {
+                    SoundManager.instance.EffectPlay(teleportSound);
+                }
+                GameObject flashParticleObj = Instantiate(flashParticle, transform.position, transform.rotation);
+                transform.position = knives[0].transform.position;
+                rigid.velocity = Vector2.zero;
+                Destroy(knives[0]);
+                knives.RemoveAt(0);
 
-            Touch touch = Input.GetTouch(0);
-            Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
+                if (knives.Count == 0)
+                {
+                    curKnifeNum = maxKnifeNum;
+                }
 
-            Vector2 playerPos = transform.position;
-            Vector2 direction = (touchPos - playerPos).normalized;
-
-            GameObject knife = Instantiate(knifeObj, playerPos, transform.rotation);
-            knives.Add(knife);
-            Rigidbody2D knifeRigid = knife.GetComponent<Rigidbody2D>();
-            knifeRigid.AddForce(direction * throwPower, ForceMode2D.Impulse);
-
-            curKnifeNum--;
-        }
-        else if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began 
-            && curKnifeNum <= 0)
-        {
-            SoundManager.instance.EffectPlay(teleportSound);
-            GameObject flashParticleObj = Instantiate(flashParticle, transform.position, transform.rotation);
-            transform.position = knives[0].transform.position;
-            rigid.velocity = Vector2.zero;
-            Destroy(knives[0]);
-            knives.RemoveAt(0);
-
-            if (knives.Count == 0)
-                curKnifeNum = maxKnifeNum;
+            }
         }
     }
 

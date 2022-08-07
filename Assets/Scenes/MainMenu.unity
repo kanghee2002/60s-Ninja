@@ -2708,57 +2708,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallObj: {fileID: 2940645871974236518, guid: e671a82b3ca7b8448a7e8d995d21b8df, type: 3}
-  player: {fileID: 0}
-  generateBar: {fileID: 0}
-  pubFormatsObj:
-  - {fileID: 3312174090633277522, guid: 442f80f6d390ddc499b04cd8cfd5c18a, type: 3}
-  - {fileID: 3312174090633277522, guid: d8347028c3756174cb9132946d1fdd04, type: 3}
-  - {fileID: 990757341315806152, guid: 624c47158469ba34b919f56d43fef3c7, type: 3}
-  - {fileID: 720507177111289242, guid: 4cebf2f39af1b224e9b38842700147cb, type: 3}
-  - {fileID: 720507177111289242, guid: a9e49a992c5dc1842b4bffcfda7981a7, type: 3}
-  - {fileID: 3213345435831939863, guid: d0fa6daefc7c7a549880042d99499935, type: 3}
-  - {fileID: 3213345435831939863, guid: b6d1d4bcac2baa641b2c87392b7cbbed, type: 3}
-  - {fileID: 1850144438096544421, guid: d2d1efccf374f994ba263feec7e48516, type: 3}
-  - {fileID: 1329736864413534005, guid: 3ef2c06b326123349ab552b14882e465, type: 3}
-  - {fileID: 7151621574905523788, guid: fdedb27b9a224f94fb686a244c63a07d, type: 3}
-  - {fileID: 1432909855621708265, guid: 073d6f853e81d4240bee92ba8f4de862, type: 3}
-  - {fileID: 1432909855621708265, guid: 5363ef2205d9c1a42ae4f75bb24c4ac0, type: 3}
-  - {fileID: 3429060334491896767, guid: f618ba962b43bc940a2fe55a46141603, type: 3}
-  - {fileID: 4005926267296676745, guid: d386996289cef2d40a8313f2ff85c2b8, type: 3}
-  - {fileID: 2316205657534989395, guid: 13748a70d642b214c812cf7bd219d63d, type: 3}
-  - {fileID: 6785390151513191668, guid: 25a194538fb9fea42b172f54f91ad00d, type: 3}
-  - {fileID: 8500131232117408903, guid: e0d3e94737aa69c4696a82954792e438, type: 3}
-  - {fileID: 6709041978835001210, guid: 69325bdfa1d22264faf63e411a15cb8f, type: 3}
-  - {fileID: 5019032652717017070, guid: fd43c41f58c8129498d1d581170aa48f, type: 3}
-  - {fileID: 7011824510110731662, guid: ea4cc78f6c9727d4ab2eebe35db42c52, type: 3}
-  - {fileID: 3641406790563189708, guid: e12099b7980b7204bae8755a183e9160, type: 3}
-  - {fileID: 577839841353838251, guid: a9a264c8ccf9b8d439a6ef173a3219e5, type: 3}
-  - {fileID: 7199607793641515539, guid: fac361ccf9588aa49bd39bb532920161, type: 3}
-  - {fileID: 7266712390597695050, guid: e2f951da5a7548645a6a107b0d129fd2, type: 3}
-  - {fileID: 3643392172851912746, guid: 95e1761c3416c304ab95557a135183af, type: 3}
-  - {fileID: 8470691494578175737, guid: ef3a4eca6ecc8b44fbe71fd1e450eec6, type: 3}
-  - {fileID: 3082651498569755375, guid: c44d5a34faad48244bbcc31fb53f82ab, type: 3}
-  - {fileID: 9051740929171335867, guid: 6dd8f6709fd54814b9032d11207dc769, type: 3}
-  - {fileID: 7205456928690014293, guid: 1c773d4596b14d04db63356d14b8eab4, type: 3}
-  - {fileID: 134309303717419639, guid: 65f36fae93b378b42bed6501afbfee15, type: 3}
-  - {fileID: 6734791761975734858, guid: 09d729958850c4945bd289f445d92700, type: 3}
-  - {fileID: 8167121546618665374, guid: 9fe6232898b05d54cba375650c5e15b3, type: 3}
-  - {fileID: 5947118720610202198, guid: a009c4360a0b8a64e8b7659db870199c, type: 3}
-  - {fileID: 9145254088612665555, guid: 01a2fa35f773558499ac88d45fa926a8, type: 3}
-  - {fileID: 3636396504843126110, guid: fb287ca8e7242474e992a6c038ff1564, type: 3}
-  - {fileID: 4943405653678638012, guid: 116c35ac19a6f2643bd9d3dde4716ebc, type: 3}
-  - {fileID: 7205456928690014293, guid: 153478f5d0e11d346982fbf27b455999, type: 3}
-  - {fileID: 836193851016898536, guid: ffada1f7ea61bc24a89040dfea641753, type: 3}
-  - {fileID: 4597291086722738511, guid: 8113faa3adea9554cb895a7524eb202e, type: 3}
-  - {fileID: 8062481257992146114, guid: b4f4f282e8a5de340999e51aa69136ce, type: 3}
-  - {fileID: 6048046034048987509, guid: 1c6861cc402dfa34b971a2da82ef64fc, type: 3}
-  playerScore: 0
-  playerPlayTime: 0
-  playerScoreLevel: 0
-  playerTime: 0
-  startBonusCheckTime: 0
-  isInitialized: 0
-  isGaming: 0
+  generateBar: {fileID: 1219404574}
+  formats: []
   playerDeathSound: {fileID: 8300000, guid: fbd88f7dd6a4bf7438524aa7d871f9ce, type: 3}
   playerDeathParticle: {fileID: 708920350504499024, guid: b69a3d9073633e845aadb54f733ec0d1,
     type: 3}

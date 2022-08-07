@@ -4,44 +4,50 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class GameManager : MonoBehaviour
+public class InGameManager : MonoBehaviour
 {
-    public static GameManager instance = null;
-    public GameObject wallObj;
-    public GameObject player;
-    public GameObject generateBar;
+    public static InGameManager instance = null;
 
+    //GameObject
+    [SerializeField]
+    private GameObject playerObj;
+    [SerializeField]
+    private GameObject wallObj;
+    [SerializeField]
+    private GameObject generateBar;
 
-    public List<GameObject> pubFormatsObj = new List<GameObject>();
+    //Format
+    [SerializeField]
+    private List<GameObject> formats = new List<GameObject>();           //Inspector
 
-    List<GameObject> formatsToGenerate = new List<GameObject>();
-    List<int> formatsLevelCutLines = new List<int>(); //Level 1이 2개, Level 2가 3개, Level 3이 5개라면
-                                                      //[2, 5] (각 레벨의 시작 index)
+    private List<List<GameObject>> formatsList = new List<List<GameObject>>(); //First index = level
 
-    int overFormatLength = 0;
-
-    public int playerScore;
-    public float playerPlayTime;
-
-    int HighestFormatLevel = 5;
     List<int> scoreLevelLimits = new List<int>();
-    public int playerScoreLevel;       //0, 1, 2, 3, 4
     List<int> levelProbabilitys = new List<int>();      //1, 1+4=5, 1+4+9=14, 30, 55
 
-    public float playerTime;
+    private int overFormatLength = 0;
 
-    float bonusCheckTime;
-    public bool startBonusCheckTime;
+    //InGame
+    public GameObject player { get; private set; }
+    public int playerScore { get; private set; }
 
-    bool isStart;
-    public bool isInitialized;
+    public float playerPlayTime { get; private set; }
 
-    public bool isGaming;
+    public int playerScoreLevel { get; private set; }    //0, 1, 2, 3, 4
 
-    public AudioClip playerDeathSound;
-    public GameObject playerDeathParticle;
+    public float playerTime { get; private set; }
 
-    public GameObject gameOverUI;
+    public bool isStart { get; private set; }
+
+    public bool isGaming { get; private set; }
+
+    //Etc
+    [SerializeField]
+    private AudioClip playerDeathSound;
+    [SerializeField]
+    private GameObject playerDeathParticle;
+    [SerializeField]
+    private GameObject gameOverUI;
 
     private void Awake()
     {
@@ -53,23 +59,21 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        DontDestroyOnLoad(this.gameObject); 
     }
 
-    void Start()
+
+    public void InitFormat()
     {
         MakeFormatList();
-        MakeScoreLevelLimit();
         MakeLevelProbabilitys();
         generateBar = transform.GetChild(0).gameObject;
-
     }
 
     void Update()
     {
-        Initialization();
+        /*UnityEngine.PlayerLoop.Initialization();
         playerTimer();
-        StartBonusCheckTime();
+        StartBonusCheckTime();*/
     }
 
     public void GameStart()
@@ -81,7 +85,15 @@ public class GameManager : MonoBehaviour
             generateBar.SetActive(true);
         }
     }
-    public void Initialization()
+
+    [ContextMenu("InitGame")]
+    public void InitGame()
+    {
+        player = Instantiate(playerObj, Vector3.zero, transform.rotation);
+        player.GetComponent<Player>().Init();
+    }
+
+    /*public void Initialization()
     {
         if (isInitialized)
         {
@@ -97,7 +109,7 @@ public class GameManager : MonoBehaviour
         isStart = false;
         isGaming = true;
         isInitialized = true;
-    }
+    }*/
 
     void playerTimer()
     {
@@ -114,7 +126,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AddPlayerTime(float score)
+    /*public void AddPlayerTime(float score)
     {
         float timeMagnification = 3f;
         float addTime = timeMagnification * score + 3 - bonusCheckTime;
@@ -127,18 +139,18 @@ public class GameManager : MonoBehaviour
         {
             playerTime = 60f;
         }
-    }
+    }*/
 
-    void StartBonusCheckTime()
+   /* void StartBonusCheckTime()
     {
         if (startBonusCheckTime)
         {
             bonusCheckTime += Time.deltaTime;
         }
 
-    }
+    }*/
 
-    void ScoreLevelCheck()
+    /*void ScoreLevelCheck()
     {
         if (playerScoreLevel == HighestFormatLevel - 1)
             return;
@@ -147,23 +159,12 @@ public class GameManager : MonoBehaviour
         {
             playerScoreLevel++;
         }
-    }
-
-    void MakeScoreLevelLimit()
-    {
-        int sum = 0;
-        int levelInterval = 20;
-        for (int i = 1; i < HighestFormatLevel + 1; i++)
-        {
-            sum += levelInterval * i;                       //20, 60, 120, 200, 300
-            scoreLevelLimits.Add(sum);
-        }
-    }
+    }*/
 
     void MakeLevelProbabilitys()
     {
         int sum = 0;
-        for(int i = 1; i < HighestFormatLevel + 1; i++)
+        for(int i = 1; i < formatsList.Count + 1; i++)
         {
             int x = (int)Mathf.Pow(i, 2);
             sum += x;
@@ -173,34 +174,21 @@ public class GameManager : MonoBehaviour
 
     void MakeFormatList()
     {
-        for (int i = 0; i < pubFormatsObj.Count; i++)
+        foreach(var format in formats)
         {
-            if (pubFormatsObj[i] == null)
+            if (format == null)
             {
                 continue;
             }
-        }
-        int level = 1;
-        while (level < HighestFormatLevel + 1)
-        {
-            for (int i = 0; i < pubFormatsObj.Count; i++)
-            {
-                if (pubFormatsObj[i] == null)
-                {
-                    continue;
-                }
 
-                if (pubFormatsObj[i].GetComponent<Format>().level == level)
-                {
-                    formatsToGenerate.Add(pubFormatsObj[i]);
-                }
-            }
-            formatsLevelCutLines.Add(formatsToGenerate.Count);
-            level++;
+            Format f = format.GetComponent<Format>();
+
+            formatsList[f.level].Add(format);
         }
+
     }
     
-    public void GenerateFormat()
+    /*public void GenerateFormat()
     {
         //Generate Wall
         transform.position = new Vector3(transform.position.x, transform.position.y + 100, 0);
@@ -235,8 +223,8 @@ public class GameManager : MonoBehaviour
                 overFormatLength = i - 7;
             }
         }
-    }
-    int SelectFormat()
+    }*/
+    /*int SelectFormat()
     {
         int level =  SelectFormatLevel();
         int randomx;
@@ -253,8 +241,9 @@ public class GameManager : MonoBehaviour
             randomx = Random.Range(formatsLevelCutLines[level - 2], formatsLevelCutLines[level - 1]);
         }
         return randomx;
-    }
-    int SelectFormatLevel()
+    }*/
+
+    /*int SelectFormatLevel()
     {
         int randomx = Random.Range(1,levelProbabilitys[playerScoreLevel]);
         for (int i = 0; i < levelProbabilitys.Count; i++)
@@ -271,7 +260,7 @@ public class GameManager : MonoBehaviour
     {
         playerScore += score;
         ScoreLevelCheck();
-    }
+    }*/
 
     public void GameOver()
     {

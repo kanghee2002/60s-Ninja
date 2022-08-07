@@ -22,12 +22,12 @@ public class ButtonManager : MonoBehaviour
 
     void Start()
     {
-        audioSourceBGM = SoundManager.instance.audioSourceBGM;
-        audioSourceEffect = SoundManager.instance.audioSourceEffect;
+        //audioSourceBGM = SoundManager.instance.audioSourceBGM;
+        //audioSourceEffect = SoundManager.instance.audioSourceEffect;
 
         if (gameOverUI != null)
         {
-            GameManager.instance.gameOverUI = gameOverUI;
+            //InGameManager.instance.gameOverUI = gameOverUI;
         }
     }
 
@@ -60,7 +60,7 @@ public class ButtonManager : MonoBehaviour
     public void SettingBtn()
     {
         SoundManager.instance.EffectPlay(ButtonClickSound);
-        GameManager.instance.isGaming = false;
+        //InGameManager.instance.isGaming = false;
         Time.timeScale = 0f;
         menuUI.SetActive(true);
     }
@@ -69,7 +69,7 @@ public class ButtonManager : MonoBehaviour
     {
         SoundManager.instance.EffectPlay(ButtonClickSound);
 
-        GameManager.instance.isGaming = true;
+        //InGameManager.instance.isGaming = true;
         Time.timeScale = 1f;
         menuUI.SetActive(false);
     }
@@ -85,7 +85,7 @@ public class ButtonManager : MonoBehaviour
         SoundManager.instance.fadeInFlag = false;
         SoundManager.instance.EffectPlay(ButtonClickSound);
 
-        GameManager.instance.isInitialized = false;
+        //InGameManager.instance.isInitialized = false;
     }
 
     public void HowToPlayBtn()
@@ -97,8 +97,8 @@ public class ButtonManager : MonoBehaviour
 
         SoundManager.instance.EffectPlay(ButtonClickSound);
 
-        GameManager.instance.isInitialized = false;
-        GameManager.instance.generateBar.SetActive(false);
+        //InGameManager.instance.isInitialized = false;
+        //InGameManager.instance.generateBar.SetActive(false);
     }
 
     public void MainBtn()
@@ -113,8 +113,8 @@ public class ButtonManager : MonoBehaviour
         SoundManager.instance.fadeInFlag = true;
         SoundManager.instance.fadeOutFlag = false;
 
-        GameManager.instance.isGaming = true;
-        GameManager.instance.generateBar.SetActive(false);
+        //InGameManager.instance.isGaming = true;
+        //InGameManager.instance.generateBar.SetActive(false);
         Time.timeScale = 1f;
     }
 
@@ -124,8 +124,8 @@ public class ButtonManager : MonoBehaviour
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
-        GameManager.instance.isInitialized = false;
-
+        //InGameManager.instance.isInitialized = false;
+        
     }
 
     public void QuitBtn()

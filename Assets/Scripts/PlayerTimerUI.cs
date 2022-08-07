@@ -16,7 +16,7 @@ public class PlayerTimerUI : MonoBehaviour
 
     void Update()
     {
-        playerTime = GameManager.instance.playerTime;   //60 -> 0
+        playerTime = InGameManager.instance.playerTime;   //60 -> 0
         rectTransform.anchoredPosition = new Vector3(45 - playerTime * 45 / 60,
             -45 + playerTime * 45 / 60, 0);        //0, 0 -> 45, -45
         MoonUI.color = new Color(1, playerTime / 20f, playerTime / 20f, 1);      // After 20s  1 -> 0

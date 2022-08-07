@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class MainCamera : MonoBehaviour
 {
-    GameObject player;
-    public float controlPos;
+    [SerializeField]
+    private float controlPos;
 
-    int screenWidth;
-    int screenHeight;
-    Camera m_camera;
+    private int screenWidth;
+    private int screenHeight;
+    private Camera m_camera;
+    private GameObject player;
 
     private void Start()
     {
@@ -26,7 +27,7 @@ public class MainCamera : MonoBehaviour
         } 
         else
         {
-            player = GameManager.instance.player;
+            player = InGameManager.instance.player;
         }
 
     }

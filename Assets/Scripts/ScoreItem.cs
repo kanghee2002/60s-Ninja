@@ -23,7 +23,7 @@ public class ScoreItem : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Instantiate(particle, transform.position, transform.rotation);
-            GameManager.instance.AddPlayerScore(score);
+            //InGameManager.instance.AddPlayerScore(score);
             SoundManager.instance.EffectPlay(itemPick);
             Destroy(gameObject);
         }

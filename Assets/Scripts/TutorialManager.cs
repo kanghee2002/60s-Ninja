@@ -106,7 +106,7 @@ public class TutorialManager : MonoBehaviour
         }
 
         timer += Time.deltaTime;
-        if (GameManager.instance.playerScore > 0 && !isTutorialObstacleStart)       //Touching Star
+        if (InGameManager.instance.playerScore > 0 && !isTutorialObstacleStart)       //Touching Star
         {
             arrowObj.SetActive(false);
             ExplainObstacle();
@@ -210,9 +210,9 @@ public class TutorialManager : MonoBehaviour
 
     void UpdatePlayerTimer()
     {
-        if (GameManager.instance.playerTime < 10)
+        if (InGameManager.instance.playerTime < 10)
         {
-            GameManager.instance.playerTime += 49;
+            //InGameManager.instance.playerTime += 49;
         }
     }
 }
