@@ -6,31 +6,40 @@ using UnityEngine.SceneManagement;
 
 public class FadeInOut : MonoBehaviour
 {
-    public int x;
+    public enum FadeType { FadeIn, FadeOut };
 
-    Image image;
-    Color color;
-
-    public IEnumerator FadeIn(string scene)     //op - > tr
+    public IEnumerator SetFade(FadeType fadeType)     //op - > tr
     {
-        image = GetComponent<Image>();
-        image.color = new Color(0, 0, 0, 1);
-        color = image.color;
+        var image = GetComponent<Image>();
+        var color = image.color;
 
-        while (color.a > 0)
+        if (fadeType is FadeType.FadeIn)
         {
-            color.a -= 0.1f;
-            image.color = color;
+            image.color = new Color(0, 0, 0, 1);
 
-            yield return null;
+            while (color.a > 0)
+            {
+                color.a -= 0.1f;
+                image.color = color;
+
+                yield return null;
+            }
         }
-
-        if (scene != null)
+        else if (fadeType is FadeType.FadeOut)
         {
-            SceneManager.LoadScene(scene);
+            image.color = new Color(0, 0, 0, 0);
+
+            while (color.a < 1)
+            {
+                color.a += 0.1f;
+                image.color = color;
+
+                yield return null;
+            }
         }
+        yield break;
     }
-    public IEnumerator FadeOut(string scene)     //tr -> op
+    /*public IEnumerator FadeOut(string scene)     //tr -> op
     {
         image = GetComponent<Image>();
         image.color = new Color(0, 0, 0, 0);
@@ -48,11 +57,11 @@ public class FadeInOut : MonoBehaviour
         {
             SceneManager.LoadScene(scene);
         }
-    }
+    }*/
 
     private void Update()
     {
-        if (x == 1)
+        /*if (x == 1)
         {
             image = GetComponent<Image>();
             color = image.color;
@@ -66,9 +75,9 @@ public class FadeInOut : MonoBehaviour
 
             else
             {
-                Destroy(gameObject);
+                //Destroy(gameObject);
             }
 
-        }
+        }*/
     }
 }

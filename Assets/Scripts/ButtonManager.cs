@@ -79,7 +79,7 @@ public class ButtonManager : MonoBehaviour
         Time.timeScale = 1f;
 
         fadeObj.SetActive(true);
-        fadeObj.GetComponent<FadeInOut>().StartCoroutine(fadeObj.GetComponent<FadeInOut>().FadeOut("InGame"));
+        //fadeObj.GetComponent<FadeInOut>().StartCoroutine(fadeObj.GetComponent<FadeInOut>().FadeOut("InGame"));
 
         SoundManager.instance.fadeOutFlag = true;
         SoundManager.instance.fadeInFlag = false;
@@ -93,7 +93,7 @@ public class ButtonManager : MonoBehaviour
         Time.timeScale = 1f;
 
         fadeObj.SetActive(true);
-        fadeObj.GetComponent<FadeInOut>().StartCoroutine(fadeObj.GetComponent<FadeInOut>().FadeOut("Tutorial"));
+        //fadeObj.GetComponent<FadeInOut>().StartCoroutine(fadeObj.GetComponent<FadeInOut>().FadeOut("Tutorial"));
 
         SoundManager.instance.EffectPlay(ButtonClickSound);
 
@@ -104,7 +104,7 @@ public class ButtonManager : MonoBehaviour
     public void MainBtn()
     {
         fadeObj.SetActive(true);
-        fadeObj.GetComponent<FadeInOut>().StartCoroutine(fadeObj.GetComponent<FadeInOut>().FadeOut("MainMenu"));
+        //fadeObj.GetComponent<FadeInOut>().StartCoroutine(fadeObj.GetComponent<FadeInOut>().FadeOut("MainMenu"));
 
         SoundManager.instance.EffectPlay(ButtonClickSound);
         audioSourceBGM.clip = SoundManager.instance.BGMMainMenu;

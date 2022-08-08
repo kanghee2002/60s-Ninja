@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using TMPro;
 
 public class InGameManager : MonoBehaviour
 {
     public static InGameManager instance = null;
+
+    //Enum
+    public enum FadeType { FadeIn, FadeOut };
+
 
     //GameObject
     [SerializeField]
@@ -15,6 +20,8 @@ public class InGameManager : MonoBehaviour
     private GameObject wallObj;
     [SerializeField]
     private GameObject generateBar;
+    [SerializeField]
+    private GameObject fade;
 
     //Format
     [SerializeField]
@@ -41,6 +48,8 @@ public class InGameManager : MonoBehaviour
 
     public bool isGaming { get; private set; }
 
+    private IEnumerator coroutine;
+
     //Etc
     [SerializeField]
     private AudioClip playerDeathSound;
@@ -54,7 +63,7 @@ public class InGameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-        }    
+        }
         else if (instance != this)
         {
             Destroy(this.gameObject);
@@ -89,8 +98,19 @@ public class InGameManager : MonoBehaviour
     [ContextMenu("InitGame")]
     public void InitGame()
     {
-        player = Instantiate(playerObj, Vector3.zero, transform.rotation);
+        if (player == null)
+        {
+            player = Instantiate(playerObj, Vector3.zero, transform.rotation);
+        }
+        else
+        {
+            player.SetActive(true);
+        }
         player.GetComponent<Player>().Init();
+
+        coroutine = SetFade(FadeType.FadeIn);
+
+        StartCoroutine(coroutine);
     }
 
     /*public void Initialization()
@@ -141,14 +161,14 @@ public class InGameManager : MonoBehaviour
         }
     }*/
 
-   /* void StartBonusCheckTime()
-    {
-        if (startBonusCheckTime)
-        {
-            bonusCheckTime += Time.deltaTime;
-        }
+    /* void StartBonusCheckTime()
+     {
+         if (startBonusCheckTime)
+         {
+             bonusCheckTime += Time.deltaTime;
+         }
 
-    }*/
+     }*/
 
     /*void ScoreLevelCheck()
     {
@@ -164,7 +184,7 @@ public class InGameManager : MonoBehaviour
     void MakeLevelProbabilitys()
     {
         int sum = 0;
-        for(int i = 1; i < formatsList.Count + 1; i++)
+        for (int i = 1; i < formatsList.Count + 1; i++)
         {
             int x = (int)Mathf.Pow(i, 2);
             sum += x;
@@ -174,7 +194,7 @@ public class InGameManager : MonoBehaviour
 
     void MakeFormatList()
     {
-        foreach(var format in formats)
+        foreach (var format in formats)
         {
             if (format == null)
             {
@@ -187,7 +207,7 @@ public class InGameManager : MonoBehaviour
         }
 
     }
-    
+
     /*public void GenerateFormat()
     {
         //Generate Wall
@@ -272,5 +292,40 @@ public class InGameManager : MonoBehaviour
         player.SetActive(false);
         SoundManager.instance.audioSourceBGM.volume = 0;
 
+    }
+
+    private IEnumerator SetFade(FadeType fadeType)     //op - > tr
+    {
+        fade.SetActive(true);
+
+        var image = fade.GetComponent<Image>();
+
+        image.color = fadeType == FadeType.FadeIn ?
+            new Color(0, 0, 0, 1) : new Color(0, 0, 0, 0);
+
+        var color = image.color;
+
+
+        /*float colorChage;
+
+        (image.color, colorChage) = fadeType switch
+        {
+            FadeType.FadeIn => (new Color(0, 0, 0, 1), -0.1f),
+            FadeType.FadeOut => (new Color(0, 0, 0, 0), 0.1f),
+            _ => (new Color(0, 0, 0, 1), -0.1f)                //Error
+        };*/
+
+        while (0 <= color.a && color.a <= 1)
+        {
+            color.a += fadeType == FadeType.FadeIn ? -0.1f : 0.1f;
+            //color.a += colorChage;
+            image.color = color;
+
+            yield return null;
+        }
+
+        fade.SetActive(false);
+
+        yield break;
     }
 }

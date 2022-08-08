@@ -50,6 +50,6 @@ public class HowToPlayUI : MonoBehaviour
     {
         SoundManager.instance.EffectPlay(buttonClickSound);
         fadeObj.SetActive(true);
-        fadeObj.GetComponent<FadeInOut>().StartCoroutine(fadeObj.GetComponent<FadeInOut>().FadeOut("MainMenu"));
+        //fadeObj.GetComponent<FadeInOut>().StartCoroutine(fadeObj.GetComponent<FadeInOut>().FadeOut("MainMenu"));
     }
 }
