@@ -305,20 +305,18 @@ public class InGameManager : MonoBehaviour
 
         var color = image.color;
 
-
-        /*float colorChage;
+        float colorChage;
 
         (image.color, colorChage) = fadeType switch
         {
-            FadeType.FadeIn => (new Color(0, 0, 0, 1), -0.1f),
-            FadeType.FadeOut => (new Color(0, 0, 0, 0), 0.1f),
+            FadeType.FadeIn => (new Color(0, 0, 0, 1), -0.05f),
+            FadeType.FadeOut => (new Color(0, 0, 0, 0), 0.05f),
             _ => (new Color(0, 0, 0, 1), -0.1f)                //Error
-        };*/
+        };
 
         while (0 <= color.a && color.a <= 1)
         {
-            color.a += fadeType == FadeType.FadeIn ? -0.1f : 0.1f;
-            //color.a += colorChage;
+            color.a += colorChage;
             image.color = color;
 
             yield return null;
