@@ -38,7 +38,6 @@ public class Player : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         curKnifeNum = maxKnifeNum;
         isSliding = false;
-
     }
 
     private void Update()
@@ -86,7 +85,6 @@ public class Player : MonoBehaviour
 
     }
 
-
     void ThrowKnife()
     {
         if (Input.touchCount > 0)    
@@ -101,7 +99,7 @@ public class Player : MonoBehaviour
         {
             if (curKnifeNum > 0)
             {
-                //isStart 던질 때 노래 시작 및 카운트 시작
+                //isGameStart 던질 때 노래 시작 및 카운트 시작
 
                 Touch touch = Input.GetTouch(0);
                 Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
