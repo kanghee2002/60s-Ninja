@@ -12,18 +12,22 @@ public class InGameManager : MonoBehaviour
     //Enum
     public enum FadeType { FadeIn, FadeOut };
 
-
-    //GameObject
+    
+    [Header("GameObject")]
     [SerializeField]
     private GameObject playerObj;
+
     [SerializeField]
     private GameObject wallObj;
+
     [SerializeField]
     private GameObject generateBar;
+
     [SerializeField]
     private GameObject fade;
 
-    //Format
+
+    [Header("Format")]
     [SerializeField]
     private List<GameObject> formats = new List<GameObject>();           //Inspector
 
@@ -34,8 +38,8 @@ public class InGameManager : MonoBehaviour
 
     private int overFormatLength = 0;
 
-    //InGame
     public GameObject player { get; private set; }
+
     public int playerScore { get; private set; }
 
     public float playerPlayTime { get; private set; }
@@ -44,19 +48,28 @@ public class InGameManager : MonoBehaviour
 
     public float playerTime { get; private set; }
 
-    public bool isStart { get; private set; }
+    public bool isGameStart { get; private set; }
 
-    public bool isGaming { get; private set; }
+    public bool isGaming { get; set; }
 
-    private IEnumerator coroutine;
+    //private IEnumerator coroutine;
 
-    //Etc
+
+    [Header("UI")]
     [SerializeField]
-    private AudioClip playerDeathSound;
-    [SerializeField]
-    private GameObject playerDeathParticle;
+    private ButtonManager buttonManager;
+
     [SerializeField]
     private GameObject gameOverUI;
+
+
+    [Header("Etc")]
+    [SerializeField]
+    private AudioClip playerDeathSound;
+
+    [SerializeField]
+    private GameObject playerDeathParticle;
+
 
     private void Awake()
     {
@@ -70,29 +83,36 @@ public class InGameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        Init();
+        InitGame();
+    }
 
-    public void InitFormat()
+
+    [ContextMenu("Init")]
+    public void Init()
     {
         MakeFormatList();
         MakeLevelProbabilitys();
         generateBar = transform.GetChild(0).gameObject;
+        buttonManager.InitInGame();
     }
 
-    void Update()
+    private void Update()
     {
         /*UnityEngine.PlayerLoop.Initialization();
         playerTimer();
         StartBonusCheckTime();*/
+
+        playerTimer();
     }
 
-    public void GameStart()
+    public void StartGame()
     {
-        isStart = true;
-        SoundManager.instance.BGMInGameStart();
-        if (SceneManager.GetActiveScene().name == "InGame")
-        {
-            generateBar.SetActive(true);
-        }
+        isGameStart = true;
+        isGaming = true;
+        SoundManager.instance.StartBGM(SoundManager.SceneType.InGame);
     }
 
     [ContextMenu("InitGame")]
@@ -105,43 +125,35 @@ public class InGameManager : MonoBehaviour
         else
         {
             player.SetActive(true);
+            player.transform.position = Vector3.zero;
         }
+
         player.GetComponent<Player>().Init();
 
-        coroutine = SetFade(FadeType.FadeIn);
+        //coroutine = SetFade(FadeType.FadeIn);
 
-        StartCoroutine(coroutine);
-    }
+        StartCoroutine(SetFade(FadeType.FadeIn));
 
-    /*public void Initialization()
-    {
-        if (isInitialized)
-        {
-            return;
-        }
+        generateBar.SetActive(true);
 
-        transform.position = Vector3.zero;
         playerScore = 0;
-        overFormatLength = 0;
+        playerPlayTime = 0;
         playerScoreLevel = 0;
         playerTime = 60f;
-        playerPlayTime = 0f;
-        isStart = false;
-        isGaming = true;
-        isInitialized = true;
-    }*/
+        isGameStart = false;
+        isGaming = false;
+    }
+
 
     void playerTimer()
     {
-        if (isStart)
+        if (isGaming)
         {
             playerPlayTime += Time.deltaTime;
-            //print(playerPlayTime);
             playerTime -= Time.deltaTime;
             if (playerTime < 0)
             {
                 GameOver();
-                isStart = false;
             }
         }
     }
@@ -284,13 +296,17 @@ public class InGameManager : MonoBehaviour
 
     public void GameOver()
     {
-        isStart = false;
+        isGameStart = false;
+        isGaming = false;
+
         SoundManager.instance.EffectPlay(playerDeathSound);
         Instantiate(playerDeathParticle,
             player.transform.position, player.transform.rotation);
+
         gameOverUI.SetActive(true);
         player.SetActive(false);
-        SoundManager.instance.audioSourceBGM.volume = 0;
+
+        SoundManager.instance.SetAudioVolume(SoundManager.SoundType.BGM, 0);
 
     }
 

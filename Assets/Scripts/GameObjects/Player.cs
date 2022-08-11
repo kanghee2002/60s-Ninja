@@ -97,10 +97,13 @@ public class Player : MonoBehaviour
 
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
+            if (!InGameManager.instance.isGameStart)
+            {
+                InGameManager.instance.StartGame();
+            }
+
             if (curKnifeNum > 0)
             {
-                //isGameStart 던질 때 노래 시작 및 카운트 시작
-
                 Touch touch = Input.GetTouch(0);
                 Vector2 touchPos = Camera.main.ScreenToWorldPoint(touch.position);
 

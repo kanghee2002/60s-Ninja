@@ -1,134 +1,110 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
 
 public class ButtonManager : MonoBehaviour
 {
-    public AudioClip ButtonClickSound;
+    [SerializeField]
+    private AudioClip buttonClickSound;
 
-    public GameObject menuUI;
+    [SerializeField]
+    private ClickUI[] InGameButtons;
 
-    AudioSource audioSourceBGM;
-    AudioSource audioSourceEffect;
+    [SerializeField]
+    private ClickUI[] MainMenuButtons;
 
-    public Slider BGMSlider;
-    public Slider EffectSlider;
+    [SerializeField]
+    private GameObject menuUI;
 
-    public GameObject fadeObj;
-    public GameObject gameOverUI;
+    [SerializeField]
+    private GameObject gameOverUI;
 
-    void Start()
+    public void InitMainMenu()
     {
-        //audioSourceBGM = SoundManager.instance.audioSourceBGM;
-        //audioSourceEffect = SoundManager.instance.audioSourceEffect;
 
-        if (gameOverUI != null)
-        {
-            //InGameManager.instance.gameOverUI = gameOverUI;
-        }
     }
 
+    public void InitInGame()
+    {
+        foreach(var button in InGameButtons)
+        {
+            button.AddListener(() =>
+        SoundManager.instance.EffectPlay(buttonClickSound));
+        }
 
-    public void BGMBtn()
-    {
-        if (audioSourceBGM.mute == false)
-        {
-            audioSourceBGM.mute = true;
-        }
-        else
-        {
-            audioSourceBGM.mute = false;
-        }
-        SoundManager.instance.EffectPlay(ButtonClickSound);
-    }
-    public void EffectBtn()
-    {
-        if (audioSourceEffect.mute == false)
-        {
-            audioSourceEffect.mute = true;
-        }
-        else
-        {
-            audioSourceEffect.mute = false;
-        }
-        SoundManager.instance.EffectPlay(ButtonClickSound);
+        //Setting, Retry, Main, Continue, BGM, Effect, Main
+        InGameButtons[0].AddListener(() => SettingButtonAction());
+        InGameButtons[1].AddListener(() => RetryButtonAction());
+        InGameButtons[2].AddListener(() => MainButtonAction());
+        InGameButtons[3].AddListener(() => ContinueButtonAction());
+        InGameButtons[4].AddListener(() => BGMButtonAction());
+        InGameButtons[5].AddListener(() => EffectButtonAction());
+        InGameButtons[6].AddListener(() => MainButtonAction());
     }
 
-    public void SettingBtn()
+    private void BGMButtonAction()
     {
-        SoundManager.instance.EffectPlay(ButtonClickSound);
-        //InGameManager.instance.isGaming = false;
+        SoundManager.instance.SetMute(SoundManager.SoundType.BGM, 
+            !SoundManager.instance.isBGMMute);
+    }
+
+    private void EffectButtonAction()
+    {
+        SoundManager.instance.SetMute(SoundManager.SoundType.Effect, 
+            !SoundManager.instance.isEffectMute);
+    }
+
+    private void SettingButtonAction()
+    {
+        InGameManager.instance.isGaming = false;
         Time.timeScale = 0f;
         menuUI.SetActive(true);
     }
 
-    public void ContinueBtn()
+    private void ContinueButtonAction()
     {
-        SoundManager.instance.EffectPlay(ButtonClickSound);
-
-        //InGameManager.instance.isGaming = true;
+        InGameManager.instance.isGaming = true;
         Time.timeScale = 1f;
         menuUI.SetActive(false);
     }
 
-    public void GameStartBtn()
+    private void GameStartButtonAction()
     {
+        SceneManager.LoadScene("InGame");
+
         Time.timeScale = 1f;
 
-        fadeObj.SetActive(true);
-        //fadeObj.GetComponent<FadeInOut>().StartCoroutine(fadeObj.GetComponent<FadeInOut>().FadeOut("InGame"));
-
-        SoundManager.instance.fadeOutFlag = true;
-        SoundManager.instance.fadeInFlag = false;
-        SoundManager.instance.EffectPlay(ButtonClickSound);
-
-        //InGameManager.instance.isInitialized = false;
+        InGameManager.instance.InitGame();
     }
 
-    public void HowToPlayBtn()
+    private void HowToPlayButtonAction()
     {
+        SceneManager.LoadScene("HowToPlay");
+
         Time.timeScale = 1f;
-
-        fadeObj.SetActive(true);
-        //fadeObj.GetComponent<FadeInOut>().StartCoroutine(fadeObj.GetComponent<FadeInOut>().FadeOut("Tutorial"));
-
-        SoundManager.instance.EffectPlay(ButtonClickSound);
 
         //InGameManager.instance.isInitialized = false;
         //InGameManager.instance.generateBar.SetActive(false);
     }
 
-    public void MainBtn()
+    private void MainButtonAction()
     {
-        fadeObj.SetActive(true);
-        //fadeObj.GetComponent<FadeInOut>().StartCoroutine(fadeObj.GetComponent<FadeInOut>().FadeOut("MainMenu"));
+        SceneManager.LoadScene("MainMenu");
 
-        SoundManager.instance.EffectPlay(ButtonClickSound);
-        audioSourceBGM.clip = SoundManager.instance.BGMMainMenu;
-        audioSourceBGM.Play();
-        audioSourceBGM.volume = 0;
-        SoundManager.instance.fadeInFlag = true;
-        SoundManager.instance.fadeOutFlag = false;
+        SoundManager.instance.StartBGM(SoundManager.SceneType.MainMenu);
+        SoundManager.instance.SetAudioVolume(SoundManager.SoundType.BGM, 0);
 
-        //InGameManager.instance.isGaming = true;
-        //InGameManager.instance.generateBar.SetActive(false);
         Time.timeScale = 1f;
     }
 
-    public void RetryBtn()
+    private void RetryButtonAction()
     {
-        SoundManager.instance.EffectPlay(ButtonClickSound);
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
-        //InGameManager.instance.isInitialized = false;
-        
+        InGameManager.instance.InitGame();
     }
 
-    public void QuitBtn()
+    private void QuitButtonAction()
     {
         Application.Quit();
     }
