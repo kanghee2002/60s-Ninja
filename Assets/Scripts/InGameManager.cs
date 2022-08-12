@@ -298,7 +298,7 @@ public class InGameManager : MonoBehaviour
 
     }
 
-    private IEnumerator SetFade(FadeType fadeType)     //op - > tr
+    private IEnumerator SetFade(FadeType fadeType)
     {
         fade.SetActive(true);
 

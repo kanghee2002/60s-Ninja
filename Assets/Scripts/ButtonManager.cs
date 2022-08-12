@@ -21,15 +21,28 @@ public class ButtonManager : MonoBehaviour
 
     public void InitMainMenu()
     {
+        foreach (var button in MainMenuButtons)
+        {
+            button.AddListenerOnly(() =>
+            SoundManager.instance.EffectPlay(buttonClickSound));
+        }
 
+        //GameStart, HowToPlay, Setting, Quit, Back, BGM, Effect
+        MainMenuButtons[0].AddListener(() => GameStartButtonAction());
+        MainMenuButtons[1].AddListener(() => HowToPlayButtonAction());
+        MainMenuButtons[2].AddListener(() => SettingButtonAction());
+        MainMenuButtons[3].AddListener(() => QuitButtonAction());
+        MainMenuButtons[4].AddListener(() => BackButtonAction());
+        MainMenuButtons[5].AddListener(() => BGMButtonAction());
+        MainMenuButtons[6].AddListener(() => EffectButtonAction());
     }
 
     public void InitInGame()
     {
         foreach(var button in InGameButtons)
         {
-            button.AddListener(() =>
-        SoundManager.instance.EffectPlay(buttonClickSound));
+            button.AddListenerOnly(() =>
+            SoundManager.instance.EffectPlay(buttonClickSound));
         }
 
         //Setting, Retry, Main, Continue, BGM, Effect, Main
@@ -56,7 +69,10 @@ public class ButtonManager : MonoBehaviour
 
     private void SettingButtonAction()
     {
-        InGameManager.instance.isGaming = false;
+        if (InGameManager.instance != null)
+        {
+            InGameManager.instance.isGaming = false;
+        }
         Time.timeScale = 0f;
         menuUI.SetActive(true);
     }
@@ -73,8 +89,6 @@ public class ButtonManager : MonoBehaviour
         SceneManager.LoadScene("InGame");
 
         Time.timeScale = 1f;
-
-        InGameManager.instance.InitGame();
     }
 
     private void HowToPlayButtonAction()
@@ -102,6 +116,11 @@ public class ButtonManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
         InGameManager.instance.InitGame();
+    }
+
+    private void BackButtonAction()
+    {
+        menuUI.SetActive(false);
     }
 
     private void QuitButtonAction()
