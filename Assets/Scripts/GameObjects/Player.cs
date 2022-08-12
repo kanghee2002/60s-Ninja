@@ -7,25 +7,37 @@ public class Player : MonoBehaviour
 {
     private Rigidbody2D rigid;
 
+    [Header("GameObject")]
     [SerializeField]
     private GameObject knifeObj;
+
+    [Header("Stat")]
     [SerializeField]
     private int throwPower;
+
     [SerializeField]
     private float slidingSpeed;
+
     [SerializeField]
     private int maxKnifeNum;
 
+    [Header("Particle")]
     [SerializeField]
     private GameObject flashParticle;
+
     [SerializeField]
     private GameObject deathParticle;
-    [SerializeField]
-    private AudioClip landingSound;
-    [SerializeField]
-    private AudioClip teleportSound;
+
+    [Header("Sound")]
     [SerializeField]
     private AudioClip deathSound;
+
+    [SerializeField]
+    private AudioClip landingSound;
+
+    [SerializeField]
+    private AudioClip teleportSound;
+
 
     private bool isSliding;
 
@@ -54,7 +66,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Obstacle"))
         {
-            InGameManager.instance.GameOver();
+            GameOver();
         }
 
         if (collision.gameObject.CompareTag("Platform"))
@@ -85,7 +97,7 @@ public class Player : MonoBehaviour
 
     }
 
-    void ThrowKnife()
+    private void ThrowKnife()
     {
         if (Input.touchCount > 0)    
         {   
@@ -138,11 +150,18 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Slide()
+    private void Slide()
     {
         if (isSliding)
         {
             rigid.velocity = new Vector2(rigid.velocity.x, rigid.velocity.y * slidingSpeed);
         }
+    }
+
+    private void GameOver()
+    {
+        SoundManager.instance.EffectPlay(deathSound);
+        Instantiate(deathParticle, transform.position, transform.rotation);
+        InGameManager.instance.GameOver();
     }
 }

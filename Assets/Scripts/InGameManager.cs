@@ -63,14 +63,6 @@ public class InGameManager : MonoBehaviour
     private GameObject gameOverUI;
 
 
-    [Header("Etc")]
-    [SerializeField]
-    private AudioClip playerDeathSound;
-
-    [SerializeField]
-    private GameObject playerDeathParticle;
-
-
     private void Awake()
     {
         if (instance == null)
@@ -298,10 +290,6 @@ public class InGameManager : MonoBehaviour
     {
         isGameStart = false;
         isGaming = false;
-
-        SoundManager.instance.EffectPlay(playerDeathSound);
-        Instantiate(playerDeathParticle,
-            player.transform.position, player.transform.rotation);
 
         gameOverUI.SetActive(true);
         player.SetActive(false);
