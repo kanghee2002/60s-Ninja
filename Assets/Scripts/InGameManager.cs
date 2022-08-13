@@ -50,9 +50,6 @@ public class InGameManager : MonoBehaviour
 
     public bool isGaming { get; set; }
 
-    //private IEnumerator coroutine;
-
-
     [Header("UI")]
     [SerializeField]
     private ButtonManager buttonManager;
@@ -98,9 +95,6 @@ public class InGameManager : MonoBehaviour
 
     private void Update()
     {
-        /*UnityEngine.PlayerLoop.Initialization();
-        StartBonusCheckTime();*/
-
         CountPlayerTime();
         SetText();
     }
@@ -125,8 +119,6 @@ public class InGameManager : MonoBehaviour
         }
 
         player.GetComponent<Player>().Init();
-
-        //coroutine = SetFade(FadeType.FadeIn);
 
         StartCoroutine(SetFade(FadeType.FadeIn));
 
@@ -219,7 +211,6 @@ public class InGameManager : MonoBehaviour
 
             formatsList[f.level].Add(format);
         }
-
     }
 
     /*public void GenerateFormat()
@@ -309,7 +300,6 @@ public class InGameManager : MonoBehaviour
         resultScoreText.text = "Score : " + playerScore.ToString();
 
         SoundManager.instance.SetAudioVolume(SoundType.BGM, 0);
-
     }
 
     private IEnumerator SetFade(FadeType fadeType)

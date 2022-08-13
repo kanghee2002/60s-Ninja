@@ -1215,9 +1215,8 @@ GameObject:
   - component: {fileID: 428019124}
   - component: {fileID: 428019126}
   - component: {fileID: 428019125}
-  - component: {fileID: 428019127}
   m_Layer: 5
-  m_Name: ScoreTxt
+  m_Name: ResultScoreTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1343,19 +1342,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 428019123}
   m_CullTransparentMesh: 0
---- !u!114 &428019127
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 428019123}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0933e4cd295d1194e92f290599f0a128, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  code: 2
 --- !u!1 &476684684
 GameObject:
   m_ObjectHideFlags: 0
@@ -1367,9 +1353,8 @@ GameObject:
   - component: {fileID: 476684685}
   - component: {fileID: 476684687}
   - component: {fileID: 476684686}
-  - component: {fileID: 476684688}
   m_Layer: 5
-  m_Name: TimeTxt
+  m_Name: ResultTimeTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1493,19 +1478,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 476684684}
   m_CullTransparentMesh: 0
---- !u!114 &476684688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 476684684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0933e4cd295d1194e92f290599f0a128, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  code: 3
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1616,7 +1588,6 @@ GameObject:
   - component: {fileID: 559517881}
   - component: {fileID: 559517883}
   - component: {fileID: 559517882}
-  - component: {fileID: 559517884}
   m_Layer: 5
   m_Name: ScoreText
   m_TagString: Untagged
@@ -1742,19 +1713,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 559517880}
   m_CullTransparentMesh: 0
---- !u!114 &559517884
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 559517880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0933e4cd295d1194e92f290599f0a128, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  code: 1
 --- !u!1001 &632217056
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2227,9 +2185,10 @@ MonoBehaviour:
   formats: []
   buttonManager: {fileID: 386786549}
   gameOverUI: {fileID: 1188576498}
-  playerDeathSound: {fileID: 8300000, guid: fbd88f7dd6a4bf7438524aa7d871f9ce, type: 3}
-  playerDeathParticle: {fileID: 708920350504499024, guid: b69a3d9073633e845aadb54f733ec0d1,
-    type: 3}
+  timerText: {fileID: 1294583717}
+  scoreText: {fileID: 559517882}
+  resultTimerText: {fileID: 476684686}
+  resultScoreText: {fileID: 428019125}
 --- !u!4 &751296070
 Transform:
   m_ObjectHideFlags: 0
@@ -3336,9 +3295,8 @@ GameObject:
   - component: {fileID: 1294583715}
   - component: {fileID: 1294583718}
   - component: {fileID: 1294583717}
-  - component: {fileID: 1294583716}
   m_Layer: 5
-  m_Name: PlayerTimerText
+  m_Name: TimerText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3364,19 +3322,6 @@ RectTransform:
   m_AnchoredPosition: {x: -18, y: 0}
   m_SizeDelta: {x: 1200, y: 500}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &1294583716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1294583714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0933e4cd295d1194e92f290599f0a128, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  code: 4
 --- !u!114 &1294583717
 MonoBehaviour:
   m_ObjectHideFlags: 0
