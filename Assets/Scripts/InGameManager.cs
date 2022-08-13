@@ -11,6 +11,7 @@ public class InGameManager : MonoBehaviour
 {
     public static InGameManager instance = null;
 
+
     [Header("GameObject")]
     [SerializeField]
     private GameObject playerObj;
@@ -24,17 +25,6 @@ public class InGameManager : MonoBehaviour
     [SerializeField]
     private GameObject fade;
 
-
-    [Header("Format")]
-    [SerializeField]
-    private List<GameObject> formats = new List<GameObject>();           //Inspector
-
-    private List<List<GameObject>> formatsList = new List<List<GameObject>>(); //First index = level
-
-    List<int> scoreLevelLimits = new List<int>();
-    List<int> levelProbabilitys = new List<int>();      //1, 1+4=5, 1+4+9=14, 30, 55
-
-    private int overFormatLength = 0;
 
     public GameObject player { get; private set; }
 
@@ -50,12 +40,14 @@ public class InGameManager : MonoBehaviour
 
     public bool isGaming { get; set; }
 
+
     [Header("UI")]
     [SerializeField]
     private ButtonManager buttonManager;
 
     [SerializeField]
     private GameObject gameOverUI;
+
 
     [Header("Text")]
     public TextMeshProUGUI timerText;
@@ -65,6 +57,16 @@ public class InGameManager : MonoBehaviour
     public TextMeshProUGUI resultTimerText;
 
     public TextMeshProUGUI resultScoreText;
+
+
+    [Header("Format")]
+    [SerializeField]
+    private int[] scoreLevelLimits;
+
+    [SerializeField]
+    private int[] levelProbabilitys; 
+
+    private List<List<Format>> formatsList = new();
 
 
     private void Awake()
@@ -88,7 +90,6 @@ public class InGameManager : MonoBehaviour
     private void Init()
     {
         MakeFormatList();
-        MakeLevelProbabilitys();
         generateBar = transform.GetChild(0).gameObject;
         buttonManager.InitInGame();
     }
@@ -131,7 +132,6 @@ public class InGameManager : MonoBehaviour
         isGameStart = false;
         isGaming = false;
     }
-
 
     private void CountPlayerTime()
     {
@@ -187,29 +187,20 @@ public class InGameManager : MonoBehaviour
         }
     }*/
 
-    void MakeLevelProbabilitys()
-    {
-        int sum = 0;
-        for (int i = 1; i < formatsList.Count + 1; i++)
-        {
-            int x = (int)Mathf.Pow(i, 2);
-            sum += x;
-            levelProbabilitys.Add(sum);            //1, 1+4=5, 1+4+9=14, 30, 55
-        }
-    }
-
     void MakeFormatList()
     {
-        foreach (var format in formats)
+        var loadFormats = Resources.LoadAll<Format>("Formats");
+
+        formatsList.Clear();
+
+        for (int i = 0; i < 5; i++)
         {
-            if (format == null)
-            {
-                continue;
-            }
+            formatsList.Add(new List<Format>());
+        }
 
-            Format f = format.GetComponent<Format>();
-
-            formatsList[f.level].Add(format);
+        foreach(var format in loadFormats)
+        {
+            formatsList[format.level - 1].Add(format);
         }
     }
 
