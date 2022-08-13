@@ -14,17 +14,17 @@ public class MainMenuManager : MonoBehaviour
     private void Start()
     {
         buttonManager.InitMainMenu();
-        StartCoroutine(SetFade(InGameManager.FadeType.FadeIn));
-        SoundManager.instance.StartBGM(SoundManager.SceneType.MainMenu);
+        StartCoroutine(SetFade(FadeType.FadeIn));
+        SoundManager.instance.StartBGM(SceneType.MainMenu);
     }
 
-    private IEnumerator SetFade(InGameManager.FadeType fadeType)
+    private IEnumerator SetFade(FadeType fadeType)
     {
         fade.SetActive(true);
 
         var image = fade.GetComponent<Image>();
 
-        image.color = fadeType == InGameManager.FadeType.FadeIn ?
+        image.color = fadeType == FadeType.FadeIn ?
             new Color(0, 0, 0, 1) : new Color(0, 0, 0, 0);
 
         var color = image.color;
@@ -33,8 +33,8 @@ public class MainMenuManager : MonoBehaviour
 
         (image.color, colorChage) = fadeType switch
         {
-            InGameManager.FadeType.FadeIn => (new Color(0, 0, 0, 1), -0.05f),
-            InGameManager.FadeType.FadeOut => (new Color(0, 0, 0, 0), 0.05f),
+            FadeType.FadeIn => (new Color(0, 0, 0, 1), -0.05f),
+            FadeType.FadeOut => (new Color(0, 0, 0, 0), 0.05f),
             _ => (new Color(0, 0, 0, 1), -0.1f)                //Error
         };
 

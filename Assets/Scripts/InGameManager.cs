@@ -5,14 +5,12 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
+public enum FadeType { FadeIn, FadeOut };
+
 public class InGameManager : MonoBehaviour
 {
     public static InGameManager instance = null;
 
-    //Enum
-    public enum FadeType { FadeIn, FadeOut };
-
-    
     [Header("GameObject")]
     [SerializeField]
     private GameObject playerObj;
@@ -94,7 +92,6 @@ public class InGameManager : MonoBehaviour
     private void Update()
     {
         /*UnityEngine.PlayerLoop.Initialization();
-        playerTimer();
         StartBonusCheckTime();*/
 
         playerTimer();
@@ -104,7 +101,7 @@ public class InGameManager : MonoBehaviour
     {
         isGameStart = true;
         isGaming = true;
-        SoundManager.instance.StartBGM(SoundManager.SceneType.InGame);
+        SoundManager.instance.StartBGM(SceneType.InGame);
     }
 
     [ContextMenu("InitGame")]
@@ -294,7 +291,7 @@ public class InGameManager : MonoBehaviour
         gameOverUI.SetActive(true);
         player.SetActive(false);
 
-        SoundManager.instance.SetAudioVolume(SoundManager.SoundType.BGM, 0);
+        SoundManager.instance.SetAudioVolume(SoundType.BGM, 0);
 
     }
 

@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SoundType
+{
+    BGM,
+    Effect,
+}
+
+public enum SceneType
+{
+    MainMenu,
+    InGame,
+}
+
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance = null;
-
-    public enum SoundType
-    {
-        BGM,
-        Effect,
-    }
-
-    public enum SceneType
-    {
-        MainMenu,
-        InGame,
-    }
 
     [SerializeField]
     private AudioSource audioSourceBGM;

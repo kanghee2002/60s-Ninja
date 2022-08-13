@@ -57,13 +57,13 @@ public class ButtonManager : MonoBehaviour
 
     private void BGMButtonAction()
     {
-        SoundManager.instance.SetMute(SoundManager.SoundType.BGM, 
+        SoundManager.instance.SetMute(SoundType.BGM, 
             !SoundManager.instance.isBGMMute);
     }
 
     private void EffectButtonAction()
     {
-        SoundManager.instance.SetMute(SoundManager.SoundType.Effect, 
+        SoundManager.instance.SetMute(SoundType.Effect, 
             !SoundManager.instance.isEffectMute);
     }
 
@@ -105,8 +105,8 @@ public class ButtonManager : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
 
-        SoundManager.instance.StartBGM(SoundManager.SceneType.MainMenu);
-        SoundManager.instance.SetAudioVolume(SoundManager.SoundType.BGM, 0);
+        SoundManager.instance.StartBGM(SceneType.MainMenu);
+        SoundManager.instance.SetAudioVolume(SoundType.BGM, 0);
 
         Time.timeScale = 1f;
     }
