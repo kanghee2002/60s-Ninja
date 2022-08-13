@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Obstacle"))
         {
-            GameOver();
+            InGameManager.instance.GameOver();
         }
 
         if (collision.gameObject.CompareTag("Platform"))
@@ -158,10 +158,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void GameOver()
+    public void Death()
     {
         SoundManager.instance.EffectPlay(deathSound);
         Instantiate(deathParticle, transform.position, transform.rotation);
-        InGameManager.instance.GameOver();
     }
 }

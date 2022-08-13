@@ -60,6 +60,15 @@ public class InGameManager : MonoBehaviour
     [SerializeField]
     private GameObject gameOverUI;
 
+    [Header("Text")]
+    public TextMeshProUGUI timerText;
+
+    public TextMeshProUGUI scoreText;
+
+    public TextMeshProUGUI resultTimerText;
+
+    public TextMeshProUGUI resultScoreText;
+
 
     private void Awake()
     {
@@ -79,9 +88,7 @@ public class InGameManager : MonoBehaviour
         InitGame();
     }
 
-
-    [ContextMenu("Init")]
-    public void Init()
+    private void Init()
     {
         MakeFormatList();
         MakeLevelProbabilitys();
@@ -94,7 +101,8 @@ public class InGameManager : MonoBehaviour
         /*UnityEngine.PlayerLoop.Initialization();
         StartBonusCheckTime();*/
 
-        playerTimer();
+        CountPlayerTime();
+        SetText();
     }
 
     public void StartGame()
@@ -104,7 +112,6 @@ public class InGameManager : MonoBehaviour
         SoundManager.instance.StartBGM(SceneType.InGame);
     }
 
-    [ContextMenu("InitGame")]
     public void InitGame()
     {
         if (player == null)
@@ -134,7 +141,7 @@ public class InGameManager : MonoBehaviour
     }
 
 
-    void playerTimer()
+    private void CountPlayerTime()
     {
         if (isGaming)
         {
@@ -145,6 +152,12 @@ public class InGameManager : MonoBehaviour
                 GameOver();
             }
         }
+    }
+
+    private void SetText()
+    {
+        timerText.text = string.Format("{0:N1}", playerTime);
+        scoreText.text = playerScore.ToString();
     }
 
     /*public void AddPlayerTime(float score)
@@ -288,8 +301,12 @@ public class InGameManager : MonoBehaviour
         isGameStart = false;
         isGaming = false;
 
-        gameOverUI.SetActive(true);
+        player.GetComponent<Player>().Death();
         player.SetActive(false);
+
+        gameOverUI.SetActive(true);
+        resultTimerText.text = "Time : " + string.Format("{0:N1}", playerPlayTime);
+        resultScoreText.text = "Score : " + playerScore.ToString();
 
         SoundManager.instance.SetAudioVolume(SoundType.BGM, 0);
 
