@@ -1749,7 +1749,7 @@ PrefabInstance:
     - target: {fileID: 8969259013467485795, guid: e671a82b3ca7b8448a7e8d995d21b8df,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 8969259013467485795, guid: e671a82b3ca7b8448a7e8d995d21b8df,
         type: 3}
@@ -2196,6 +2196,8 @@ MonoBehaviour:
   resultScoreText: {fileID: 428019125}
   scoreLevelLimits: 14000000320000005a0000008c000000
   levelProbabilitys: 01000000050000000e0000001e00000037000000
+  objectsParent: {fileID: 1749819769}
+  wallHeight: 120
 --- !u!4 &751296070
 Transform:
   m_ObjectHideFlags: 0
@@ -4137,7 +4139,7 @@ PrefabInstance:
     - target: {fileID: 8969259013467485795, guid: e671a82b3ca7b8448a7e8d995d21b8df,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 8969259013467485795, guid: e671a82b3ca7b8448a7e8d995d21b8df,
         type: 3}

@@ -32,7 +32,7 @@ public class InGameManager : MonoBehaviour
 
     public float playerPlayTime { get; private set; }
 
-    public int playerScoreLevel { get; private set; }    //0, 1, 2, 3, 4
+    public int playerScoreLevel { get; private set; }    //1, 2, 3, 4, 5
 
     public float playerTime { get; private set; }
 
@@ -65,6 +65,16 @@ public class InGameManager : MonoBehaviour
 
     [SerializeField]
     private int[] levelProbabilitys; 
+
+    [SerializeField]
+    private Transform objectsParent;
+
+    [SerializeField]
+    private float wallHeight;
+
+    private float curFormatPosY;
+
+    private float curWallPosY;
 
     private List<List<Format>> formatsList = new();
 
@@ -127,10 +137,12 @@ public class InGameManager : MonoBehaviour
 
         playerScore = 0;
         playerPlayTime = 0;
-        playerScoreLevel = 0;
+        playerScoreLevel = 1;
         playerTime = 60f;
         isGameStart = false;
         isGaming = false;
+        curFormatPosY = 50f;
+        curWallPosY = 40f;
     }
 
     private void CountPlayerTime()
@@ -152,20 +164,19 @@ public class InGameManager : MonoBehaviour
         scoreText.text = playerScore.ToString();
     }
 
-    /*public void AddPlayerTime(float score)
+    public void AddPlayerTime(float score)
     {
         float timeMagnification = 3f;
-        float addTime = timeMagnification * score + 3 - bonusCheckTime;
-        if (score >= 4) addTime += (score - 3);
-
+        float addTime = timeMagnification * score;
         if (addTime < 0) addTime = 0;
+
         playerTime += addTime;
-        bonusCheckTime = 0;
+
         if (playerTime > 60f)
         {
             playerTime = 60f;
         }
-    }*/
+    }
 
     /* void StartBonusCheckTime()
      {
@@ -175,17 +186,6 @@ public class InGameManager : MonoBehaviour
          }
 
      }*/
-
-    /*void ScoreLevelCheck()
-    {
-        if (playerScoreLevel == HighestFormatLevel - 1)
-            return;
-
-        if (playerScore > scoreLevelLimits[playerScoreLevel])
-        {
-            playerScoreLevel++;
-        }
-    }*/
 
     void MakeFormatList()
     {
@@ -204,79 +204,73 @@ public class InGameManager : MonoBehaviour
         }
     }
 
-    /*public void GenerateFormat()
+    public void GenerateFormat()
     {
-        //Generate Wall
-        transform.position = new Vector3(transform.position.x, transform.position.y + 100, 0);
-        Instantiate(wallObj, new Vector3(transform.position.x - 5.5f, transform.position.y, 0), transform.rotation);
-        GameObject WallR = Instantiate(wallObj, new Vector3(transform.position.x + 5.5f, transform.position.y, 0), transform.rotation);
-        WallR.transform.localScale += new Vector3(-2, 0, 0);
-
         //Ganerate Formats
         for (int i = 0; i < 8; i++)
         {
-            if (i == 0)
+            //Set GenerateBar
+            if (i == 6)
             {
-                i += overFormatLength;
-                overFormatLength = 0;
+                generateBar.transform.position = new Vector2(0, curFormatPosY);
             }
 
-            int key = SelectFormat();
-            int formatLength = formatsToGenerate[key].GetComponent<Format>().length;
-            GameObject Format = Instantiate(formatsToGenerate[key], new Vector3(0,
-                transform.position.y - 50 + 12.5f * i, 0), transform.rotation);
-
-            int x = Random.Range(0, 2);
-            if (x >= 1)
+            //Generate Wall
+            if (curFormatPosY >= curWallPosY)
             {
-                Format.transform.localScale += new Vector3(-2, 0, 0);
+                curWallPosY += wallHeight;
+                var leftWall = Instantiate(wallObj, objectsParent); 
+                var rightWall = Instantiate(wallObj, objectsParent);
+
+                leftWall.transform.position = new Vector2(- 5.5f,
+                    curWallPosY);
+                rightWall.transform.position = new Vector2(5.5f,
+                    curWallPosY);
+
+                rightWall.transform.eulerAngles = new Vector3(0, 0, -180);
             }
 
-            i += (formatLength - 1);
+            (var level, var index) = SelectFormat();
 
-            if (i >= 8)
-            {
-                overFormatLength = i - 7;
-            }
+            var format = Instantiate(formatsList[level][index], objectsParent);
+            format.transform.position = new Vector2(0, curFormatPosY);
+            curFormatPosY += formatsList[level][index].length + 10f;
         }
-    }*/
-    /*int SelectFormat()
-    {
-        int level =  SelectFormatLevel();
-        int randomx;
-        if (level == 1)
-        {
-            randomx = Random.Range(0, formatsLevelCutLines[level - 1]);
-        }
-        else if (level == HighestFormatLevel)
-        {
-            randomx = Random.Range(formatsLevelCutLines[level - 2], formatsToGenerate.Count);
-        }
-        else
-        {
-            randomx = Random.Range(formatsLevelCutLines[level - 2], formatsLevelCutLines[level - 1]);
-        }
-        return randomx;
-    }*/
-
-    /*int SelectFormatLevel()
-    {
-        int randomx = Random.Range(1,levelProbabilitys[playerScoreLevel]);
-        for (int i = 0; i < levelProbabilitys.Count; i++)
-        {
-            if (randomx <= levelProbabilitys[i])
-            {
-                return i + 1;           //i == choosed level
-            }
-        }
-        print("SelectFormatLevelError");
-        return -1;
     }
+
+    (int, int) SelectFormat()
+    {
+        int level = 0, index = 0;
+
+        int probability = Random.Range(1, levelProbabilitys[playerScoreLevel - 1] + 1);
+
+        for (int i = 0; i < levelProbabilitys.Length; i++)
+        {
+            if (probability <= levelProbabilitys[i])
+            {
+                level = i;
+                break;
+            }
+        }
+
+        index = Random.Range(0, formatsList[level].Count);
+        
+        return (level, index);
+    }
+
     public void AddPlayerScore(int score)
     {
         playerScore += score;
-        ScoreLevelCheck();
-    }*/
+
+        //Set playerScoreLevel
+        if (playerScoreLevel >= scoreLevelLimits.Length + 1)
+            return;
+
+        if (playerScore >= scoreLevelLimits[playerScoreLevel])
+        {
+            playerScoreLevel++;
+        }
+    }
 
     public void GameOver()
     {

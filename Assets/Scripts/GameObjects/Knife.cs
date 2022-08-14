@@ -55,7 +55,7 @@ public class Knife : MonoBehaviour
     {
         if (collision.gameObject.tag == "GenerateBar")
         {
-            //InGameManager.instance.GenerateFormat();
+            InGameManager.instance.GenerateFormat();
         }
     }
 
