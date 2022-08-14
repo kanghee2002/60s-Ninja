@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5681379372551891836}
   - component: {fileID: 2117948387359738532}
   m_Layer: 0
-  m_Name: Format36
+  m_Name: Format27
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8564587036533069273}
   - {fileID: 1803899193808971157}
@@ -50,11 +51,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b575cf7d73bdcb48afebd8d1045a89f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreCheckObj: {fileID: 7493799617567261240, guid: d526c497b3d4ae8418c7d6946e34d2ec,
+  scoreCheckObj: {fileID: -1103897060901229606, guid: d526c497b3d4ae8418c7d6946e34d2ec,
     type: 3}
   level: 3
-  length: 1
-  weight: 1
+  length: 6
 --- !u!1001 &1445968528595131706
 PrefabInstance:
   m_ObjectHideFlags: 0
