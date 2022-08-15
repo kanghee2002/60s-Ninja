@@ -114,6 +114,11 @@ public class Player : MonoBehaviour
                 InGameManager.instance.StartGame();
             }
 
+            if (!InGameManager.instance.isGaming)
+            {
+                return;
+            }
+
             if (curKnifeNum > 0)
             {
                 Touch touch = Input.GetTouch(0);
