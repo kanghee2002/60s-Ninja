@@ -4,21 +4,19 @@ using UnityEngine;
 
 public class Knife : MonoBehaviour
 {
-    Rigidbody2D rigid;
+    private Rigidbody2D rigid;
 
-    public float rotationSpeed;
+    [SerializeField]
+    private GameObject knifeShotParticle;
 
-    public AudioClip knifeShot;
+    [SerializeField]
+    private AudioClip knifeShotSound;
 
-    bool isStuck = false;
-    void Start()
+    private bool isStuck = false;
+
+    private void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
-    }
-
-    void Update()
-    {
-
     }
 
     private void FixedUpdate()
@@ -36,10 +34,8 @@ public class Knife : MonoBehaviour
         if ( collision.gameObject.CompareTag("Platform")
             || collision.gameObject.CompareTag("Obstacle"))
         {
-            if (SoundManager.instance != null)
-            {
-                SoundManager.instance.EffectPlay(knifeShot);
-            }
+            Instantiate(knifeShotParticle, transform.position, transform.rotation);
+            SoundManager.instance.EffectPlay(knifeShotSound);
         }
     }
 
@@ -66,14 +62,4 @@ public class Knife : MonoBehaviour
             rigid.velocity = Vector2.zero;
         }
     }
-
-    /*
-    void Rotate()
-    {
-        if (isStuck)
-        {
-            transform.Rotate(new Vector3(0, 0, 1) * 180 * rotationSpeed * Time.deltaTime);
-        }
-    }
-    */
 }

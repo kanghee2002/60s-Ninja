@@ -135,7 +135,7 @@ public class Player : MonoBehaviour
                 {
                     SoundManager.instance.EffectPlay(teleportSound);
                 }
-                GameObject flashParticleObj = Instantiate(flashParticle, transform.position, transform.rotation);
+                Instantiate(flashParticle, transform.position, transform.rotation);
                 transform.position = knives[0].transform.position;
                 rigid.velocity = Vector2.zero;
                 Destroy(knives[0]);
