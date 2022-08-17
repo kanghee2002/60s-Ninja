@@ -15,6 +15,13 @@ public class ScoreItem : MonoBehaviour
 
     private void Start()
     {
+        Init();
+    }
+
+    private void Init()
+    {
+        score = Random.Range(1, 5);
+
         int x = Random.Range(1, 3);
         if (SceneManager.GetActiveScene().name == "InGame" && x > 1)
         {

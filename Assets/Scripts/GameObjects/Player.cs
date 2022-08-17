@@ -71,11 +71,6 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Platform"))
         {
-            if (SoundManager.instance == null)
-            {
-                return;
-            }
-
             SoundManager.instance.EffectPlay(landingSound);
         }
     }

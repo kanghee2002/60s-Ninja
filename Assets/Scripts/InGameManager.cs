@@ -99,8 +99,14 @@ public class InGameManager : MonoBehaviour
 
     private void Init()
     {
+        if (SceneManager.GetActiveScene().name == "Tutorial")
+        {
+            buttonManager.InitTutorial();
+            return;
+        }
+
+        generateBar.SetActive(true);
         MakeFormatList();
-        generateBar = transform.GetChild(0).gameObject;
         buttonManager.InitInGame();
     }
 
@@ -132,8 +138,6 @@ public class InGameManager : MonoBehaviour
         player.GetComponent<Player>().Init();
 
         StartCoroutine(SetFade(FadeType.FadeIn));
-
-        generateBar.SetActive(true);
 
         playerScore = 0;
         playerPlayTime = 0;

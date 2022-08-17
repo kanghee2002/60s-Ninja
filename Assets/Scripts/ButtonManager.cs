@@ -8,10 +8,13 @@ public class ButtonManager : MonoBehaviour
     private AudioClip buttonClickSound;
 
     [SerializeField]
+    private ClickUI[] MainMenuButtons;
+
+    [SerializeField]
     private ClickUI[] InGameButtons;
 
     [SerializeField]
-    private ClickUI[] MainMenuButtons;
+    private ClickUI[] TutorialButtons;
 
     [SerializeField]
     private GameObject menuUI;
@@ -21,11 +24,7 @@ public class ButtonManager : MonoBehaviour
 
     public void InitMainMenu()
     {
-        foreach (var button in MainMenuButtons)
-        {
-            button.AddListenerOnly(() =>
-            SoundManager.instance.EffectPlay(buttonClickSound));
-        }
+        AddButtonClickSound(MainMenuButtons);
 
         //GameStart, HowToPlay, Setting, Quit, Back, BGM, Effect
         MainMenuButtons[0].AddListener(() => GameStartButtonAction());
@@ -37,13 +36,23 @@ public class ButtonManager : MonoBehaviour
         MainMenuButtons[6].AddListener(() => EffectButtonAction());
     }
 
+    public void InitTutorial()
+    {
+        AddButtonClickSound(TutorialButtons);
+
+        //Setting, Continue, BGM, Effect, Main
+        TutorialButtons[0].AddListener(() => SettingButtonAction());
+        TutorialButtons[1].AddListener(() => ContinueButtonAction());
+        TutorialButtons[2].AddListener(() => BGMButtonAction());
+        TutorialButtons[3].AddListener(() => EffectButtonAction());
+        TutorialButtons[4].AddListener(() => MainButtonAction());
+        TutorialButtons[5].AddListener(() => RetryButtonAction());
+        TutorialButtons[6].AddListener(() => MainButtonAction());
+    }
+
     public void InitInGame()
     {
-        foreach(var button in InGameButtons)
-        {
-            button.AddListenerOnly(() =>
-            SoundManager.instance.EffectPlay(buttonClickSound));
-        }
+        AddButtonClickSound(InGameButtons);
 
         //Setting, Retry, Main, Continue, BGM, Effect, Main
         InGameButtons[0].AddListener(() => SettingButtonAction());
@@ -53,6 +62,15 @@ public class ButtonManager : MonoBehaviour
         InGameButtons[4].AddListener(() => BGMButtonAction());
         InGameButtons[5].AddListener(() => EffectButtonAction());
         InGameButtons[6].AddListener(() => MainButtonAction());
+    }
+
+    private void AddButtonClickSound(ClickUI[] clickUIArr)
+    {
+        foreach (var button in clickUIArr)
+        {
+            button.AddListenerOnly(() =>
+            SoundManager.instance.EffectPlay(buttonClickSound));
+        }
     }
 
     private void BGMButtonAction()
@@ -93,12 +111,9 @@ public class ButtonManager : MonoBehaviour
 
     private void HowToPlayButtonAction()
     {
-        SceneManager.LoadScene("HowToPlay");
+        SceneManager.LoadScene("Tutorial");
 
         Time.timeScale = 1f;
-
-        //InGameManager.instance.isInitialized = false;
-        //InGameManager.instance.generateBar.SetActive(false);
     }
 
     private void MainButtonAction()

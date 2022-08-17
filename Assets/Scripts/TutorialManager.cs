@@ -6,38 +6,47 @@ using UnityEngine.EventSystems;
 
 public class TutorialManager : MonoBehaviour
 {
-    public GameObject explainText;
-    TextMeshProUGUI textMesh;
+    [SerializeField]
+    private ButtonManager buttonManager;
 
-    public GameObject player;
+    [SerializeField]
+    private TextMeshProUGUI explainText;
 
-    public GameObject Arrow;
-    public GameObject scoreItem;
+    [SerializeField]
+    private GameObject[] tutorialObjs;
+    //ScoreArrow, TimerArrow, SettingArrow,
+    //TeleportPointer1, TeleportPointer2 
 
-    public GameObject timerArrow;
-    public GameObject scoreArrow;
-    public GameObject settingArrow;
+    [SerializeField]
+    private GameObject arrowObj;
 
-    public GameObject teleportPointer1;
-    public GameObject teleportPointer2;
+    [SerializeField]
+    private GameObject scoreItemObj;
 
-    public GameObject tutorialFormat;
+    [SerializeField]
+    private GameObject tutorialFormat;
 
-    public GameObject tutorialObstacleFloor;
+    [SerializeField]
+    private GameObject tutorialObstacleFloor;
 
-    int clickCount;
-    bool isTutorialObstacleStart;
-    bool isTutorialObstacleFinish;
-    float timer;
-    float playerObstacleStartPosY;
+    private GameObject player;
 
-    float floorMoveSpped;
-
-    GameObject scoreObj;
-    GameObject arrowObj;
+    private int clickCount;
+    private bool isTutorialObstacleStart;
+    private bool isTutorialObstacleFinish;
+    private float timer;
+    private float playerObstacleStartPosY;
+    private float floorMoveSpped;
 
     private void Start()
     {
+        Init();
+    }
+
+    private void Init()
+    {
+        player = InGameManager.instance.player;
+
         floorMoveSpped = 7f;
 
         clickCount = 0;
@@ -45,63 +54,84 @@ public class TutorialManager : MonoBehaviour
         isTutorialObstacleFinish = false;
         timer = 0;
 
-        textMesh = explainText.transform.GetComponent<TextMeshProUGUI>();
+        explainText.text = "터치하여\n튜토리얼 진행";
 
-        textMesh.text = "터치하여\n튜토리얼 진행";
-
-        scoreObj = Instantiate(scoreItem, Vector3.zero, transform.rotation);
-        arrowObj = Instantiate(Arrow, Vector3.zero, transform.rotation);
-        scoreObj.SetActive(false);
+        scoreItemObj.transform.position = Vector2.zero;
+        scoreItemObj.SetActive(false);
+        arrowObj.transform.position = Vector2.zero;
         arrowObj.SetActive(false);
     }
 
     private void Update()
     {
-        Explain();
+        ExplainGame();
 
         LiftPlayer();
 
         UpdatePlayerTimer();        //Prevent GameOver
     }
 
-    void Explain()
+    void ExplainGame()
     {
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began &&
+            InGameManager.instance.isGaming)
         {
-            if (clickCount == 0)
+            switch (clickCount)
             {
-                ExplainPlayer();
-            }
-            else if (clickCount == 1)
-            {
-                Destroy(player.transform.GetChild(0).gameObject);
-                ExplainScore();
-            }
-            else if (clickCount == 2)
-            {
-                scoreArrow.SetActive(false);
-                ExplainTimer();
-            }
-            else if (clickCount == 3)
-            {
-                timerArrow.SetActive(false);
-                ExplainTransport1();
-            }
-            else if (clickCount == 4)
-            {
-                teleportPointer1.SetActive(false);
-                ExplainTransport2();
-            }
-            else if (clickCount == 5)
-            {
-                teleportPointer2.SetActive(false);
-                ExplainMove();
-            }
-            else if (clickCount == 6)
-            {
-                ExplainScoreItem();
-            }
+                case 0:
+                    explainText.text = "당신입니다.";
+                    arrowObj.SetActive(true);
+                    arrowObj.transform.parent = player.transform;
+                    arrowObj.transform.localPosition = new Vector3(0, 2, 0);
+                    arrowObj.transform.eulerAngles = new Vector3(0, 0, 180);
+                    break;
+                case 1:
+                    player.transform.GetChild(0).gameObject.SetActive(false);
+                    tutorialObjs[0].SetActive(true);
+                    explainText.text = "점수를 나타냅니다\n별을 먹거나,\n" +
+                        "적을 처치하거나,\n" +
+                        "장애물을 통과하면\n증가합니다.";
+                    break;
+                case 2:
+                    tutorialObjs[0].SetActive(false);
+                    tutorialObjs[1].SetActive(true);
+                    explainText.text = "남은 시간을\n나타냅니다\n계속 올라가\n" +
+                        "시간을 늘리세요!\n" +
+                        "빠르게 올라갈수록\n더 많은 시간이\n주어집니다";
+                    break;
+                case 3:
+                    tutorialObjs[1].SetActive(false);
+                    tutorialObjs[2].SetActive(true);
+                    explainText.text = "클릭해보세요.\n클릭한 곳으로\n표창이 날아갑니다";
+                    break;
+                case 4:
+                    tutorialObjs[2].SetActive(false);
+                    tutorialObjs[3].SetActive(true);
+                    explainText.text = "아무 곳이나\n클릭해보세요.\n표창이 있는 곳으로\n순간이동합니다";
 
+                    break;
+                case 5:
+                    tutorialObjs[3].SetActive(false);
+                    explainText.text = "이동할 수 있는\n방법은 단 하나." +
+                        "\n표창을 날리고\n순간이동하세요."
+                        + "\n계속해서 터치";
+                    break;
+                case 6:
+                    Vector3 playerPos = player.transform.position;
+                    scoreItemObj.SetActive(true);
+                    scoreItemObj.transform.position = playerPos + new Vector3(0, 8, 0);
+
+                    arrowObj.SetActive(true);
+                    arrowObj.transform.position = playerPos + new Vector3(0, 10, 0);
+                    arrowObj.transform.parent = null;
+
+                    tutorialObstacleFloor.SetActive(true);
+                    tutorialObstacleFloor.transform.position = new Vector3(0, -10 + playerPos.y, 0);
+
+                    explainText.text = "점수를 올려주는\n별입니다.\n" +
+                        "순간이동하여\n먹어보세요.";
+                    break;
+            }
             clickCount++;
         }
 
@@ -116,7 +146,7 @@ public class TutorialManager : MonoBehaviour
         }
         else if (isTutorialObstacleStart && timer >= 7f)
         {
-            textMesh.text = "";
+            explainText.text = "";
             timer = 0;
         }
         
@@ -128,61 +158,8 @@ public class TutorialManager : MonoBehaviour
         if (isTutorialObstacleFinish)
         {
             tutorialFormat.SetActive(false);
-            textMesh.text = "튜토리얼 완료\n우측 상단\n설정 버튼을 눌러\n메인으로";
+            explainText.text = "튜토리얼 완료\n우측 상단\n설정 버튼을 눌러\n메인으로";
         }
-    }
-    void ExplainPlayer()
-    {
-        textMesh.text = "당신입니다.";
-        GameObject plaeyrArrow = Instantiate(Arrow, player.transform);
-        plaeyrArrow.transform.localPosition = new Vector3(0, 2, 0);
-        plaeyrArrow.transform.eulerAngles = new Vector3(0, 0, 180);
-    }
-
-    void ExplainScore()
-    {
-        scoreArrow.SetActive(true);
-        textMesh.text = "점수를 나타냅니다\n별을 먹거나,\n적을 처치하거나,\n" +
-            "장애물을 통과하면\n증가합니다.";
-    }
-
-    void ExplainTimer()
-    {
-        timerArrow.SetActive(true);
-        textMesh.text = "남은 시간을\n나타냅니다\n계속 올라가\n시간을 늘리세요!\n" +
-            "빠르게 올라갈수록\n더 많은 시간이\n주어집니다";
-    }
-    void ExplainTransport1()
-    {
-        teleportPointer1.SetActive(true);
-        textMesh.text = "클릭해보세요.\n클릭한 곳으로\n표창이 날아갑니다";
-    }
-    void ExplainTransport2()
-    {
-        teleportPointer2.SetActive(true);
-        textMesh.text = "아무 곳이나\n클릭해보세요.\n표창이 있는 곳으로\n순간이동합니다";
-    }
-
-    void ExplainMove()
-    {
-        textMesh.text = "이동할 수 있는\n방법은 단 하나.\n표창을 날리고\n순간이동하세요."
-            + "\n계속해서 터치";
-    }
-
-
-    void ExplainScoreItem()
-    {
-        Vector3 playerPos = player.transform.position;
-        scoreObj.SetActive(true);
-        scoreObj.transform.position = playerPos + new Vector3(0, 8, 0);
-
-        arrowObj.SetActive(true);
-        arrowObj.transform.position = playerPos + new Vector3(0, 6, 0);
-
-        tutorialObstacleFloor.SetActive(true);
-        tutorialObstacleFloor.transform.position = new Vector3(0, -10 + playerPos.y, 0);
-
-        textMesh.text = "점수를 올려주는\n별입니다.\n순간이동하여\n먹어보세요.";
     }
 
     void ExplainObstacle()
@@ -193,7 +170,7 @@ public class TutorialManager : MonoBehaviour
         
         tutorialObstacleFloor.transform.position = new Vector3(0, -10 + playerPos.y, 0);
 
-        textMesh.text = "이제 장애물들이\n나타날 것입니다.\n가시는 피하고,\n적은 처치하여\n계속해서 올라가세요";
+        explainText.text = "이제 장애물들이\n나타날 것입니다.\n가시는 피하고,\n적은 처치하여\n계속해서 올라가세요";
     }
 
     void LiftPlayer()
