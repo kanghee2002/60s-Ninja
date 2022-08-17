@@ -4,33 +4,32 @@ using UnityEngine;
 
 public class Moving2Pos : MonoBehaviour
 {
-    int toGo;
-    Vector3 currentPos;
-    Vector3 Pos1;
-    Vector3 Pos2;
-    Vector3 dir;
-    public float movingSpeed;
+    private int toGo;
+    private Vector3 Pos1;
+    private Vector3 Pos2;
+    private Vector3 dir;
 
-    public GameObject wireObj;
-    public bool isRotate;
-    public float rotateSpped;
-    
-    void Start()
+    [SerializeField]
+    private GameObject wireObj;
+
+    [SerializeField]
+    private float moveSpeed;
+
+    [SerializeField]
+    private float rotateSpped;
+
+    private void Start()
     {
-        InstantiateWire();
+        SetWire();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        if (isRotate)
-        {
-            transform.Rotate(new Vector3(0, 0, rotateSpped) * 180 * Time.deltaTime);
-        }
-
+        transform.Rotate(new Vector3(0, 0, rotateSpped) * 180 * Time.deltaTime);
         Move2Pos();
     }
 
-    void InstantiateWire()
+    private void SetWire()
     {
         Pos1 = transform.GetChild(0).position;
         Pos2 = transform.GetChild(1).position;
@@ -50,9 +49,9 @@ public class Moving2Pos : MonoBehaviour
         transform.position = Pos2;
     }
 
-    void Move2Pos()
+    private void Move2Pos()
     {
-        currentPos = transform.position;
+        Vector3 currentPos = transform.position;
 
         if (toGo == 1)
         {
@@ -60,7 +59,7 @@ public class Moving2Pos : MonoBehaviour
             {
                 toGo = 2;
             }
-            transform.position += (dir * movingSpeed);
+            transform.position += (dir * moveSpeed);
         }
         else if (toGo == 2)
         {
@@ -68,11 +67,11 @@ public class Moving2Pos : MonoBehaviour
             {
                 toGo = 1;
             }
-            transform.position += (-dir * movingSpeed);
+            transform.position += (-dir * moveSpeed);
         }
     }
 
-    float GetAngle(Vector2 start, Vector2 end)
+    private float GetAngle(Vector2 start, Vector2 end)
     {
         Vector2 v2 = end - start;
         return Mathf.Atan2(v2.y, v2.x) * Mathf.Rad2Deg;

@@ -4,23 +4,42 @@ using UnityEngine;
 
 public class ThrowingShurikenEnemy : Enemy
 {
-    public GameObject shurikenObj;
+    [SerializeField]
+    private GameObject shurikenObj;
 
-    public float throwingPower;
-    public float coolSetTime;
-    public float firstDetectSetTime;
+    [SerializeField]
+    private GameObject particleExclamtion;
 
-    public float coolCurTime;
-    public float firstDetectCurTime;
-    public bool isCool;
-    public bool isFirstDetect; //false -> throw
-    Sight2D sight;
-    SpriteRenderer spriteRenderer;
+    [SerializeField]
+    private AudioClip Notice;
 
-    public GameObject particleExclamtion;
-    bool isExclamation;
+    [SerializeField]
+    private float throwingPower;
 
-    public AudioClip Notice;
+    [SerializeField]
+    private float coolSetTime;
+
+    [SerializeField]
+    private float firstDetectSetTime;
+
+    [SerializeField]
+    private float coolCurTime;
+
+    [SerializeField]
+    private float firstDetectCurTime;
+
+    [SerializeField]
+    private bool isCool;
+
+    [SerializeField]
+    private bool isFirstDetect;     //false -> throw
+
+    private Sight2D sight;
+
+    private SpriteRenderer spriteRenderer;
+
+    private bool isExclamation;
+
 
     private void Start()
     {
@@ -34,20 +53,7 @@ public class ThrowingShurikenEnemy : Enemy
     }
     private void FixedUpdate()
     {
-        if (!isFirstDetect)
-        {
-            Attack();
-            isCool = CheckCoolTime();
-        }
-        else
-        {
-            isFirstDetect = CheckfirstDetectTime();
-            if (!isFirstDetect)
-            {
-                isCool = false;
-            }
-        }
-
+        SetDetectType();
         TurnToPlayer();
     }
 
@@ -69,7 +75,25 @@ public class ThrowingShurikenEnemy : Enemy
         }
     }
 
-    bool CheckCoolTime()
+    private void SetDetectType()
+    {
+        if (!isFirstDetect)
+        {
+            Attack();
+            isCool = CheckCoolTime();
+        }
+        else
+        {
+            isFirstDetect = CheckfirstDetectTime();
+            if (!isFirstDetect)
+            {
+                isCool = false;
+            }
+        }
+    }
+
+
+    private bool CheckCoolTime()
     {
         if (sight.target != null) 
         {
@@ -88,7 +112,7 @@ public class ThrowingShurikenEnemy : Enemy
             return true;
         }
     }
-    bool CheckfirstDetectTime()
+    private bool CheckfirstDetectTime()
     {
         if (sight.target != null)
         {
@@ -116,7 +140,7 @@ public class ThrowingShurikenEnemy : Enemy
         }
     }
 
-    void TurnToPlayer()
+    private void TurnToPlayer()
     {
         if (sight.target != null)
         {

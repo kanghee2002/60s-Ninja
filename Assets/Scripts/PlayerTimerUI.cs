@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerTimerUI : MonoBehaviour
 {   
+    //사용 X
     float playerTime;
     RectTransform rectTransform;
     Image MoonUI;

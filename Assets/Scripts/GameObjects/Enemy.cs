@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public GameObject particle;
-    public AudioClip deathSound;
+    [SerializeField]
+    private GameObject particle;
+
+    [SerializeField]
+    private AudioClip deathSound;
+
     public virtual void Attack()
     {
 
@@ -17,7 +21,7 @@ public class Enemy : MonoBehaviour
         {
             Instantiate(particle, transform.position, transform.rotation);
             SoundManager.instance.EffectPlay(deathSound);
-            //InGameManager.instance.AddPlayerScore(3);
+            InGameManager.instance.AddPlayerScore(3);
             Destroy(gameObject);
         }
     }
