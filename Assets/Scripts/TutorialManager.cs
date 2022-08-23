@@ -71,10 +71,9 @@ public class TutorialManager : MonoBehaviour
         UpdatePlayerTimer();        //Prevent GameOver
     }
 
-    void ExplainGame()
+    private void ExplainGame()
     {
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began &&
-            InGameManager.instance.isGaming)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             switch (clickCount)
             {
@@ -88,35 +87,26 @@ public class TutorialManager : MonoBehaviour
                 case 1:
                     player.transform.GetChild(0).gameObject.SetActive(false);
                     tutorialObjs[0].SetActive(true);
-                    explainText.text = "점수를 나타냅니다\n별을 먹거나,\n" +
-                        "적을 처치하거나,\n" +
-                        "장애물을 통과하면\n증가합니다.";
+                    explainText.text = "점수를 나타냅니다";
                     break;
                 case 2:
                     tutorialObjs[0].SetActive(false);
                     tutorialObjs[1].SetActive(true);
-                    explainText.text = "남은 시간을\n나타냅니다\n계속 올라가\n" +
-                        "시간을 늘리세요!\n" +
-                        "빠르게 올라갈수록\n더 많은 시간이\n주어집니다";
+                    explainText.text = "남은 시간을\n나타냅니다";
                     break;
                 case 3:
                     tutorialObjs[1].SetActive(false);
                     tutorialObjs[2].SetActive(true);
-                    explainText.text = "클릭해보세요.\n클릭한 곳으로\n표창이 날아갑니다";
+                    explainText.text = "클릭해보세요\n클릭한 곳으로\n표창이 날아갑니다";
                     break;
                 case 4:
                     tutorialObjs[2].SetActive(false);
                     tutorialObjs[3].SetActive(true);
-                    explainText.text = "아무 곳이나\n클릭해보세요.\n표창이 있는 곳으로\n순간이동합니다";
-
+                    explainText.text = "아무 곳이나\n클릭해보세요\n표창이 있는 곳으로\n순간이동합니다";
                     break;
                 case 5:
                     tutorialObjs[3].SetActive(false);
-                    explainText.text = "이동할 수 있는\n방법은 단 하나." +
-                        "\n표창을 날리고\n순간이동하세요."
-                        + "\n계속해서 터치";
-                    break;
-                case 6:
+
                     Vector3 playerPos = player.transform.position;
                     scoreItemObj.SetActive(true);
                     scoreItemObj.transform.position = playerPos + new Vector3(0, 8, 0);
@@ -128,8 +118,8 @@ public class TutorialManager : MonoBehaviour
                     tutorialObstacleFloor.SetActive(true);
                     tutorialObstacleFloor.transform.position = new Vector3(0, -10 + playerPos.y, 0);
 
-                    explainText.text = "점수를 올려주는\n별입니다.\n" +
-                        "순간이동하여\n먹어보세요.";
+                    explainText.text = "점수를 올려주는\n별입니다\n" +
+                        "순간이동하여\n먹어보세요";
                     break;
             }
             clickCount++;
@@ -159,10 +149,11 @@ public class TutorialManager : MonoBehaviour
         {
             tutorialFormat.SetActive(false);
             explainText.text = "튜토리얼 완료\n우측 상단\n설정 버튼을 눌러\n메인으로";
+            tutorialObstacleFloor.transform.position = new Vector3(0, playerObstacleStartPosY + 50f, 0);
         }
     }
 
-    void ExplainObstacle()
+    private void ExplainObstacle()
     {
         Vector3 playerPos = player.transform.position;
         tutorialFormat.SetActive(true);
@@ -170,10 +161,10 @@ public class TutorialManager : MonoBehaviour
         
         tutorialObstacleFloor.transform.position = new Vector3(0, -10 + playerPos.y, 0);
 
-        explainText.text = "이제 장애물들이\n나타날 것입니다.\n가시는 피하고,\n적은 처치하여\n계속해서 올라가세요";
+        explainText.text = "가시는 피하고\n적은 처치하여\n계속 올라가세요";
     }
 
-    void LiftPlayer()
+    private void LiftPlayer()
     {
         if (isTutorialObstacleStart && !isTutorialObstacleFinish 
             && tutorialObstacleFloor.activeSelf)
@@ -185,11 +176,11 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    void UpdatePlayerTimer()
+    private void UpdatePlayerTimer()
     {
         if (InGameManager.instance.playerTime < 10)
         {
-            //InGameManager.instance.playerTime += 49;
+            InGameManager.instance.AddPlayerTime(20);
         }
     }
 }
