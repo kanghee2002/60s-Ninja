@@ -763,6 +763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonClickSound: {fileID: 8300000, guid: 955aa0890bbeea74aa255bca957c2910, type: 3}
+  MainMenuButtons: []
   InGameButtons:
   - {fileID: 760112078}
   - {fileID: 825729045}
@@ -771,7 +772,7 @@ MonoBehaviour:
   - {fileID: 1024842150}
   - {fileID: 1948400222}
   - {fileID: 1133011724}
-  MainMenuButtons: []
+  TutorialButtons: []
   menuUI: {fileID: 1289792874}
   gameOverUI: {fileID: 1188576498}
 --- !u!4 &386786550
@@ -2183,6 +2184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f993520376c48cd41a293ae5bb790682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugMode: 1
   playerObj: {fileID: 6997769333052281456, guid: 20475b0f201f8da4cbea2f5189bad444,
     type: 3}
   wallObj: {fileID: 2940645871974236518, guid: e671a82b3ca7b8448a7e8d995d21b8df, type: 3}

@@ -11,6 +11,7 @@ public class InGameManager : MonoBehaviour
 {
     public static InGameManager instance = null;
 
+    public bool debugMode;
 
     [Header("GameObject")]
     [SerializeField]
@@ -78,7 +79,6 @@ public class InGameManager : MonoBehaviour
 
     private List<List<Format>> formatsList = new();
 
-
     private void Awake()
     {
         if (instance == null)
@@ -114,6 +114,26 @@ public class InGameManager : MonoBehaviour
     {
         CountPlayerTime();
         SetText();
+
+    }
+
+    [ContextMenu("_AddPlayerScoreLevel")]
+    private void _AddPlayerScoreLevel()
+    {
+        if (playerScoreLevel >= 5)
+        {
+            Debug.Log(playerScoreLevel);
+            return;
+        }
+        playerScoreLevel++;
+        Debug.Log(playerScoreLevel);
+    }
+
+    [ContextMenu("_NoDie")]
+    private void _NoDie()
+    {
+        debugMode = true;
+        playerTime = 600f;
     }
 
     public void StartGame()
@@ -193,7 +213,7 @@ public class InGameManager : MonoBehaviour
 
     void MakeFormatList()
     {
-        var loadFormats = Resources.LoadAll<Format>("Formats");
+        var loadFormats = ResourceDictionary.GetAll<Format>("Formats");
 
         formatsList.Clear();
 
@@ -267,10 +287,10 @@ public class InGameManager : MonoBehaviour
         playerScore += score;
 
         //Set playerScoreLevel
-        if (playerScoreLevel >= scoreLevelLimits.Length + 1)
+        if (playerScoreLevel >= scoreLevelLimits.Length + 1)        // >= 5
             return;
 
-        if (playerScore >= scoreLevelLimits[playerScoreLevel])
+        if (playerScore >= scoreLevelLimits[playerScoreLevel - 1])
         {
             playerScoreLevel++;
         }
