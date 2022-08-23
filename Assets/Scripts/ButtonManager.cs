@@ -22,6 +22,8 @@ public class ButtonManager : MonoBehaviour
     [SerializeField]
     private GameObject gameOverUI;
 
+    private bool isSettingButtonActive = false;
+
     public void InitMainMenu()
     {
         AddButtonClickSound(MainMenuButtons);
@@ -91,20 +93,35 @@ public class ButtonManager : MonoBehaviour
         {
             InGameManager.instance.isGaming = false;
         }
+
         Time.timeScale = 0f;
-        menuUI.SetActive(true);
+
+        if (isSettingButtonActive)
+        {
+            menuUI.SetActive(false);
+        }
+        else
+        {
+            menuUI.SetActive(true);
+        }
+        isSettingButtonActive = !isSettingButtonActive;
     }
 
     private void ContinueButtonAction()
     {
         InGameManager.instance.isGaming = true;
+
         Time.timeScale = 1f;
+
+        isSettingButtonActive = false;
         menuUI.SetActive(false);
     }
 
     private void GameStartButtonAction()
     {
         SceneManager.LoadScene("InGame");
+
+        SoundManager.instance.PlayBGM(SceneType.NULL);
 
         Time.timeScale = 1f;
     }
@@ -113,6 +130,8 @@ public class ButtonManager : MonoBehaviour
     {
         SceneManager.LoadScene("Tutorial");
 
+        SoundManager.instance.PlayBGM(SceneType.NULL);
+
         Time.timeScale = 1f;
     }
 
@@ -120,8 +139,7 @@ public class ButtonManager : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
 
-        SoundManager.instance.StartBGM(SceneType.MainMenu);
-        SoundManager.instance.SetAudioVolume(SoundType.BGM, 0);
+        SoundManager.instance.PlayBGM(SceneType.MainMenu);
 
         Time.timeScale = 1f;
     }
@@ -135,6 +153,7 @@ public class ButtonManager : MonoBehaviour
 
     private void BackButtonAction()
     {
+        isSettingButtonActive = false;
         menuUI.SetActive(false);
     }
 

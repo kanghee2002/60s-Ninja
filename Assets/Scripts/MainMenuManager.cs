@@ -15,7 +15,7 @@ public class MainMenuManager : MonoBehaviour
     {
         buttonManager.InitMainMenu();
         StartCoroutine(SetFade(FadeType.FadeIn));
-        SoundManager.instance.StartBGM(SceneType.MainMenu);
+        SoundManager.instance.PlayBGM(SceneType.MainMenu);
     }
 
     private IEnumerator SetFade(FadeType fadeType)

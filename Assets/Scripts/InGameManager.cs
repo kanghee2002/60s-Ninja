@@ -140,7 +140,7 @@ public class InGameManager : MonoBehaviour
     {
         isGameStart = true;
         isGaming = true;
-        SoundManager.instance.StartBGM(SceneType.InGame);
+        SoundManager.instance.PlayBGM(SceneType.InGame);
     }
 
     public void InitGame()

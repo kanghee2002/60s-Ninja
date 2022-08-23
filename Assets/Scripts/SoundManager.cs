@@ -12,6 +12,7 @@ public enum SceneType
 {
     MainMenu,
     InGame,
+    NULL,
 }
 
 public class SoundManager : MonoBehaviour
@@ -47,17 +48,22 @@ public class SoundManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public void StartBGM(SceneType sceneType)
+    public void PlayBGM(SceneType sceneType)
     {
-        audioSourceBGM.clip = sceneType switch
+        switch (sceneType)
         {
-            SceneType.InGame => BGMInGame,
-            SceneType.MainMenu => BGMMainMenu,
-            _ => BGMMainMenu,
-        };
-
-        audioSourceBGM.volume = 1;
+            case SceneType.InGame:
+                audioSourceBGM.clip = BGMInGame;
+                break;
+            case SceneType.MainMenu:
+                audioSourceBGM.clip = BGMMainMenu;
+                break;
+            case SceneType.NULL:
+                audioSourceBGM.clip = null;
+                break;
+        }
         audioSourceBGM.Play();
+        audioSourceBGM.volume = 1;
     }
 
     public void SetAudioVolume(SoundType soundType, float volume)
@@ -87,5 +93,4 @@ public class SoundManager : MonoBehaviour
     {
         audioSourceEffect.PlayOneShot(clip);
     }
-
 }
