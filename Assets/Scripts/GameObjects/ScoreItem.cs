@@ -15,18 +15,42 @@ public class ScoreItem : MonoBehaviour
 
     private void Start()
     {
+        //Tutorial Exception
+        if (SceneManager.GetActiveScene().name == "Tutorial")
+        {
+            score = 1;
+            return;
+        }
+
         Init();
     }
 
     private void Init()
     {
-        score = Random.Range(1, 5);
+        SetScore();
+        DestroyRandom();
+    }
 
-        int x = Random.Range(1, 3);
-        if (SceneManager.GetActiveScene().name == "InGame" && x > 1)
+    private void SetScore()
+    {
+        var parent = transform.parent;
+
+        while (parent.parent != null)
         {
-            Destroy(gameObject);
+            if (parent.TryGetComponent<Format>(out var format))
+            {
+                score = format.level;
+                break;
+            }
+            parent = parent.parent;
         }
+
+    }
+
+    private void DestroyRandom()
+    {
+        int x = Random.Range(1, 3);
+        if (x > 1) Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
