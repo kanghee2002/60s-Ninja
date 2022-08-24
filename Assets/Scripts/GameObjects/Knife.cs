@@ -9,9 +9,6 @@ public class Knife : MonoBehaviour
     [SerializeField]
     private GameObject knifeShotParticle;
 
-    [SerializeField]
-    private AudioClip knifeShotSound;
-
     private bool isStuck = false;
 
     private void Start()
@@ -35,7 +32,7 @@ public class Knife : MonoBehaviour
             || collision.gameObject.CompareTag("Obstacle"))
         {
             Instantiate(knifeShotParticle, transform.position, transform.rotation);
-            SoundManager.instance.EffectPlay(knifeShotSound);
+            SoundManager.instance.PlaySFX("HitKnife");
         }
     }
 

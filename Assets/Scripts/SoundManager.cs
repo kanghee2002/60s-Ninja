@@ -31,6 +31,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private AudioClip BGMInGame;
 
+    private Dictionary<string, AudioClip> audioClipDic = new();
+
     public bool isBGMMute => audioSourceBGM.mute;
 
     public bool isEffectMute => audioSourceEffect.mute;
@@ -46,6 +48,8 @@ public class SoundManager : MonoBehaviour
             Destroy(this.gameObject);
         }
         DontDestroyOnLoad(this.gameObject);
+
+        LoadAudioClip();
     }
 
     public void PlayBGM(SceneType sceneType)
@@ -89,8 +93,18 @@ public class SoundManager : MonoBehaviour
         audioSource.mute = on;
     }
 
-    public void EffectPlay(AudioClip clip)
+    public void PlaySFX(string clip)
     {
-        audioSourceEffect.PlayOneShot(clip);
+        audioSourceEffect.PlayOneShot(audioClipDic[clip]);
+    }
+
+    private void LoadAudioClip()
+    {
+        var audioClips = ResourceDictionary.GetAll<AudioClip>("Sounds");
+
+        foreach(var audioClip in audioClips)
+        {
+            audioClipDic.Add(audioClip.name, audioClip);
+        }
     }
 }

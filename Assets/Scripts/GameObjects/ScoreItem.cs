@@ -6,9 +6,6 @@ using UnityEngine.SceneManagement;
 public class ScoreItem : MonoBehaviour
 {
     [SerializeField]
-    private AudioClip itemPick;
-
-    [SerializeField]
     private GameObject particle;
 
     public int score { get; set; }
@@ -59,7 +56,7 @@ public class ScoreItem : MonoBehaviour
         {
             Instantiate(particle, transform.position, transform.rotation);
             InGameManager.instance.AddPlayerScore(score);
-            SoundManager.instance.EffectPlay(itemPick);
+            SoundManager.instance.PlaySFX("PickItem");
             Destroy(gameObject);
         }
     }

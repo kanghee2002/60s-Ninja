@@ -6,10 +6,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField]
     private GameObject particle;
-
-    [SerializeField]
-    private AudioClip deathSound;
-
+    
     public virtual void Attack()
     {
 
@@ -20,7 +17,7 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.tag == "Knife")
         {
             Instantiate(particle, transform.position, transform.rotation);
-            SoundManager.instance.EffectPlay(deathSound);
+            SoundManager.instance.PlaySFX("DieEnemy");
             InGameManager.instance.AddPlayerScore(3);
             Destroy(gameObject);
         }

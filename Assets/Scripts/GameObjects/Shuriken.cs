@@ -7,13 +7,10 @@ public class Shuriken : MonoBehaviour
     [SerializeField]
     private GameObject shotParticle;
 
-    [SerializeField]
-    private AudioClip knifeWallShot;
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Instantiate(shotParticle, transform.position, transform.rotation);
-        SoundManager.instance.EffectPlay(knifeWallShot);
+        SoundManager.instance.PlaySFX("HitKnife");
         Destroy(gameObject);
     }
 }

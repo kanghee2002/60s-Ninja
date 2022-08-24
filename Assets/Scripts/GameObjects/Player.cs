@@ -28,17 +28,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject deathParticle;
 
-    [Header("Sound")]
-    [SerializeField]
-    private AudioClip deathSound;
-
-    [SerializeField]
-    private AudioClip landingSound;
-
-    [SerializeField]
-    private AudioClip teleportSound;
-
-
     private bool isSliding;
 
     private int curKnifeNum;
@@ -71,7 +60,7 @@ public class Player : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Platform"))
         {
-            SoundManager.instance.EffectPlay(landingSound);
+            SoundManager.instance.PlaySFX("LandPlayerWall");
         }
     }
 
@@ -133,7 +122,7 @@ public class Player : MonoBehaviour
             {
                 if (SoundManager.instance != null)
                 {
-                    SoundManager.instance.EffectPlay(teleportSound);
+                    SoundManager.instance.PlaySFX("TeleportPlayer");
                 }
                 Instantiate(flashParticle, transform.position, transform.rotation);
                 transform.position = knives[0].transform.position;
@@ -160,7 +149,7 @@ public class Player : MonoBehaviour
 
     public void Death()
     {
-        SoundManager.instance.EffectPlay(deathSound);
+        SoundManager.instance.PlaySFX("DiePlayer");
         Instantiate(deathParticle, transform.position, transform.rotation);
     }
 }

@@ -11,9 +11,6 @@ public class ThrowingShurikenEnemy : Enemy
     private GameObject particleExclamtion;
 
     [SerializeField]
-    private AudioClip Notice;
-
-    [SerializeField]
     private float throwingPower;
 
     [SerializeField]
@@ -121,7 +118,7 @@ public class ThrowingShurikenEnemy : Enemy
                 GameObject particleExclamationObj = Instantiate(particleExclamtion, transform.position, transform.rotation);
                 particleExclamationObj.transform.parent = gameObject.transform;
                 particleExclamationObj.transform.localScale = new Vector3(1, 1, 1);
-                SoundManager.instance.EffectPlay(Notice);
+                SoundManager.instance.PlaySFX("NoticeEnemy");
             }
             isExclamation = false;
             firstDetectCurTime += Time.deltaTime;

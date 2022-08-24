@@ -5,9 +5,6 @@ using UnityEngine.SceneManagement;
 public class ButtonManager : MonoBehaviour
 {
     [SerializeField]
-    private AudioClip buttonClickSound;
-
-    [SerializeField]
     private ClickUI[] MainMenuButtons;
 
     [SerializeField]
@@ -71,7 +68,7 @@ public class ButtonManager : MonoBehaviour
         foreach (var button in clickUIArr)
         {
             button.AddListenerOnly(() =>
-            SoundManager.instance.EffectPlay(buttonClickSound));
+            SoundManager.instance.PlaySFX("ClickButton"));
         }
     }
 
