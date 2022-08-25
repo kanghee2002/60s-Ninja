@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wireObj: {fileID: 3697784282403023119, guid: 826d51ce3a271d54198bedc16289fdc8, type: 3}
-  moveSpeed: 0.03
+  moveSpeed: 0.02
   rotateSpped: 0
 --- !u!61 &506660267803185349
 BoxCollider2D:

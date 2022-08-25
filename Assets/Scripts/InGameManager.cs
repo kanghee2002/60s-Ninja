@@ -11,7 +11,7 @@ public class InGameManager : MonoBehaviour
 {
     public static InGameManager instance = null;
 
-    public bool debugMode;
+    public bool isPlayerImmortal;
 
     [Header("GameObject")]
     [SerializeField]
@@ -132,8 +132,8 @@ public class InGameManager : MonoBehaviour
     [ContextMenu("_NoDie")]
     private void _NoDie()
     {
-        debugMode = true;
-        playerTime = 600f;
+        isPlayerImmortal = true;
+        playerTime = 6000f;
     }
 
     public void StartGame()
@@ -165,7 +165,7 @@ public class InGameManager : MonoBehaviour
         playerTime = 60f;
         isGameStart = false;
         isGaming = false;
-        curFormatPosY = 50f;
+        curFormatPosY = 20f;
         curWallPosY = 40f;
     }
 
@@ -254,6 +254,7 @@ public class InGameManager : MonoBehaviour
                 rightWall.transform.eulerAngles = new Vector3(0, 0, -180);
             }
 
+            //Generate Format
             (var level, var index) = SelectFormat();
 
             var format = Instantiate(formatsList[level][index], objectsParent);

@@ -2183,7 +2183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f993520376c48cd41a293ae5bb790682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugMode: 0
+  isPlayerImmortal: 0
   playerObj: {fileID: 6997769333052281456, guid: 20475b0f201f8da4cbea2f5189bad444,
     type: 3}
   wallObj: {fileID: 2940645871974236518, guid: e671a82b3ca7b8448a7e8d995d21b8df, type: 3}
