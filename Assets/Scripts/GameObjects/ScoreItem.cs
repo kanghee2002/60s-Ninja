@@ -8,7 +8,7 @@ public class ScoreItem : MonoBehaviour
     [SerializeField]
     private GameObject particle;
 
-    public int score { get; set; }
+    private int score;
 
     private void Start()
     {
@@ -56,6 +56,7 @@ public class ScoreItem : MonoBehaviour
         {
             Instantiate(particle, transform.position, transform.rotation);
             InGameManager.instance.AddPlayerScore(score);
+            InGameManager.instance.AddPlayerTime(score);
             SoundManager.instance.PlaySFX("PickItem");
             Destroy(gameObject);
         }

@@ -73,6 +73,14 @@ public class TutorialManager : MonoBehaviour
 
     private void ExplainGame()
     {
+        if (Input.touchCount > 0)
+        {
+            if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+            {   //Prevent UI touch
+                return;
+            }
+        }
+
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             switch (clickCount)
@@ -118,7 +126,7 @@ public class TutorialManager : MonoBehaviour
                     tutorialObstacleFloor.SetActive(true);
                     tutorialObstacleFloor.transform.position = new Vector3(0, -10 + playerPos.y, 0);
 
-                    explainText.text = "점수를 올려주는\n별입니다\n" +
+                    explainText.text = "점수와 시간을\n늘려줍니다\n" +
                         "순간이동하여\n먹어보세요";
                     break;
             }

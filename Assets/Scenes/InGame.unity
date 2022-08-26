@@ -2086,14 +2086,19 @@ MonoBehaviour:
   fade: {fileID: 1900852696}
   buttonManager: {fileID: 386786549}
   gameOverUI: {fileID: 1188576498}
+  addScoreText: {fileID: 3048381450149742454, guid: ac14f019853fa2e4e969d2235cdeed64,
+    type: 3}
+  addTimeText: {fileID: 309130557284427739, guid: 3c936e7105106004b830b3ec670ce840,
+    type: 3}
   timerText: {fileID: 1294583717}
   scoreText: {fileID: 559517882}
   resultTimerText: {fileID: 476684686}
   resultScoreText: {fileID: 428019125}
-  scoreLevelLimits: 14000000320000005a0000008c000000
+  scoreLevelLimits: 14000000320000005000000078000000
   levelProbabilitys: 01000000050000000e0000001e00000037000000
   objectsParent: {fileID: 1749819769}
   wallHeight: 120
+  timeMultiplier: 1.25
 --- !u!4 &751296070
 Transform:
   m_ObjectHideFlags: 0

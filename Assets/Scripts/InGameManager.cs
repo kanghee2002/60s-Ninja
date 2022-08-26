@@ -43,11 +43,18 @@ public class InGameManager : MonoBehaviour
 
 
     [Header("UI")]
+
     [SerializeField]
     private ButtonManager buttonManager;
 
     [SerializeField]
     private GameObject gameOverUI;
+
+    [SerializeField]
+    private GameObject addScoreText;
+
+    [SerializeField]
+    private GameObject addTimeText;
 
 
     [Header("Text")]
@@ -78,6 +85,11 @@ public class InGameManager : MonoBehaviour
     private float curWallPosY;
 
     private List<List<Format>> formatsList = new();
+
+
+    [Header("Test")]
+    [SerializeField]
+    private float timeMultiplier;
 
     private void Awake()
     {
@@ -171,7 +183,7 @@ public class InGameManager : MonoBehaviour
 
     private void CountPlayerTime()
     {
-        if (isGaming)
+        if (isGameStart && isGaming)
         {
             playerPlayTime += Time.deltaTime;
             playerTime -= Time.deltaTime;
@@ -190,8 +202,8 @@ public class InGameManager : MonoBehaviour
 
     public void AddPlayerTime(float score)
     {
-        float timeMagnification = 3f;
-        float addTime = timeMagnification * score;
+        float addTime = timeMultiplier * score;
+
         if (addTime < 0) addTime = 0;
 
         playerTime += addTime;
@@ -200,18 +212,27 @@ public class InGameManager : MonoBehaviour
         {
             playerTime = 60f;
         }
+
+        SetAddTimeText(addTime);
     }
 
-    /* void StartBonusCheckTime()
-     {
-         if (startBonusCheckTime)
-         {
-             bonusCheckTime += Time.deltaTime;
-         }
+    public void AddPlayerScore(int score)
+    {
+        playerScore += score;
 
-     }*/
+        SetAddScoreText(score);
 
-    void MakeFormatList()
+        //Set playerScoreLevel
+        if (playerScoreLevel >= scoreLevelLimits.Length + 1)        // >= 5
+            return;
+
+        if (playerScore >= scoreLevelLimits[playerScoreLevel - 1])
+        {
+            playerScoreLevel++;
+        }
+    }
+
+    private void MakeFormatList()
     {
         var loadFormats = ResourceDictionary.GetAll<Format>("Formats");
 
@@ -263,7 +284,7 @@ public class InGameManager : MonoBehaviour
         }
     }
 
-    (int, int) SelectFormat()
+    private (int, int) SelectFormat()
     {
         int level = 0, index = 0;
 
@@ -281,20 +302,6 @@ public class InGameManager : MonoBehaviour
         index = Random.Range(0, formatsList[level].Count);
         
         return (level, index);
-    }
-
-    public void AddPlayerScore(int score)
-    {
-        playerScore += score;
-
-        //Set playerScoreLevel
-        if (playerScoreLevel >= scoreLevelLimits.Length + 1)        // >= 5
-            return;
-
-        if (playerScore >= scoreLevelLimits[playerScoreLevel - 1])
-        {
-            playerScoreLevel++;
-        }
     }
 
     public void GameOver()
@@ -337,11 +344,23 @@ public class InGameManager : MonoBehaviour
             color.a += colorChage;
             image.color = color;
 
-            yield return null;
+            yield return new WaitForSeconds(0.05f);
         }
 
         fade.SetActive(false);
 
         yield break;
+    }
+
+    private void SetAddScoreText(int score)
+    {
+        var addScoreTextObj = Instantiate(addScoreText, scoreText.transform);
+        addScoreTextObj.GetComponent<TextMeshProUGUI>().text = "+" + score.ToString();
+    }
+
+    private void SetAddTimeText(float time)
+    {
+        var addTimeTextObj = Instantiate(addTimeText, timerText.transform);
+        addTimeTextObj.GetComponent<TextMeshProUGUI>().text = "+" + time.ToString();
     }
 }
