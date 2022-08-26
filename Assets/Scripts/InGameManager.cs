@@ -344,7 +344,7 @@ public class InGameManager : MonoBehaviour
             color.a += colorChage;
             image.color = color;
 
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.03f);
         }
 
         fade.SetActive(false);
