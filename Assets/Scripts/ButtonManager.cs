@@ -129,6 +129,8 @@ public class ButtonManager : MonoBehaviour
 
         SoundManager.instance.PlayBGM(SceneType.NULL);
 
+        InGameManager.instance.isTutorialExplaining = true;
+
         Time.timeScale = 1f;
     }
 
@@ -137,6 +139,8 @@ public class ButtonManager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
 
         SoundManager.instance.PlayBGM(SceneType.MainMenu);
+
+        InGameManager.instance.isTutorialExplaining = false;
 
         Time.timeScale = 1f;
     }

@@ -48,11 +48,11 @@ public class TutorialManager : MonoBehaviour
         player = InGameManager.instance.player;
 
         floorMoveSpped = 7f;
-
         clickCount = 0;
+        timer = 0;
+        playerObstacleStartPosY = 300f;
         isTutorialObstacleStart = false;
         isTutorialObstacleFinish = false;
-        timer = 0;
 
         explainText.text = "터치하여\n튜토리얼 진행";
 
@@ -60,6 +60,8 @@ public class TutorialManager : MonoBehaviour
         scoreItemObj.SetActive(false);
         arrowObj.transform.position = Vector2.zero;
         arrowObj.SetActive(false);
+
+        InGameManager.instance.isTutorialExplaining = true;
     }
 
     private void Update()
@@ -108,6 +110,7 @@ public class TutorialManager : MonoBehaviour
                     explainText.text = "클릭해보세요\n클릭한 곳으로\n표창이 날아갑니다";
                     break;
                 case 4:
+                    InGameManager.instance.isTutorialExplaining = false;
                     tutorialObjs[2].SetActive(false);
                     tutorialObjs[3].SetActive(true);
                     explainText.text = "아무 곳이나\n클릭해보세요\n표창이 있는 곳으로\n순간이동합니다";
@@ -157,7 +160,7 @@ public class TutorialManager : MonoBehaviour
         {
             tutorialFormat.SetActive(false);
             explainText.text = "튜토리얼 완료\n우측 상단\n설정 버튼을 눌러\n메인으로";
-            tutorialObstacleFloor.transform.position = new Vector3(0, playerObstacleStartPosY + 50f, 0);
+            tutorialObstacleFloor.transform.position = new Vector3(0, playerObstacleStartPosY + 60f, 0);
         }
     }
 

@@ -103,6 +103,8 @@ public class Player : MonoBehaviour
                 return;
             }
 
+            if (InGameManager.instance.isTutorialExplaining) return;
+
             if (curKnifeNum > 0)
             {
                 Touch touch = Input.GetTouch(0);

@@ -11,7 +11,10 @@ public class InGameManager : MonoBehaviour
 {
     public static InGameManager instance = null;
 
+    //[Debug]//
     public bool isPlayerImmortal;
+
+    public bool isTutorialExplaining { get; set; }
 
     [Header("GameObject")]
     [SerializeField]
@@ -177,7 +180,7 @@ public class InGameManager : MonoBehaviour
         playerTime = 60f;
         isGameStart = false;
         isGaming = false;
-        curFormatPosY = 20f;
+        curFormatPosY = 30f;
         curWallPosY = 40f;
     }
 

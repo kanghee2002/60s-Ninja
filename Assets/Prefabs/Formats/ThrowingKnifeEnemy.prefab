@@ -153,8 +153,8 @@ MonoBehaviour:
   particleExclamtion: {fileID: 3644570609565881854, guid: d84308380b93db243b07b5de3945f56f,
     type: 3}
   throwingPower: 30
-  coolSetTime: 1.5
-  firstDetectSetTime: 1.2
+  coolSetTime: 1.2
+  firstDetectSetTime: 1
   coolCurTime: 0
   firstDetectCurTime: 0
   isCool: 0

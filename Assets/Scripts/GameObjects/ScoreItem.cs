@@ -56,7 +56,7 @@ public class ScoreItem : MonoBehaviour
         {
             Instantiate(particle, transform.position, transform.rotation);
             InGameManager.instance.AddPlayerScore(score);
-            InGameManager.instance.AddPlayerTime(score);
+            InGameManager.instance.AddPlayerTime(score * 2);
             SoundManager.instance.PlaySFX("PickItem");
             Destroy(gameObject);
         }
