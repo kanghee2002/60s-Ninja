@@ -9,3 +9,9 @@
 - Collider를 이용한 적 시야각
 
 **첫 게임 개발 경험!**
+
+## 플레이
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/3c6633da-484c-45a3-a36d-a24bd2bb7a31" width="30%" alt="GIF1" />
+  <img src="https://github.com/user-attachments/assets/207e43ba-d736-46d5-81fc-bc15a849e10e" width="30%" alt="GIF2" />
+</p>
